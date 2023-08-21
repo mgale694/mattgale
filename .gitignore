@@ -1,0 +1,5 @@
+content/posts/*.md
+!_index.md
+public/
+thoughts/
+_gen/

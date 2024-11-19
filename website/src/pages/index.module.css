@@ -5,9 +5,22 @@
 
 .heroBanner {
   padding: 4rem 0;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+  height: calc(110vh - calc(10 * var(--ifm-navbar-height)));
+  padding-bottom: 10%;
+}
+
+.subBanner {
+  /* padding: 4rem 0; */
   text-align: center;
   position: relative;
   overflow: hidden;
+  height: calc(130vh - calc(10 * var(--ifm-navbar-height)));
+  transform: translateY(-25%);
+  /* clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 85%); */
+  clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
 }
 
 @media screen and (max-width: 996px) {
@@ -18,6 +31,6 @@
 
 .buttons {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: left;
+  justify-content: left;
 }

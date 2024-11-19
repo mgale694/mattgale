@@ -17,13 +17,18 @@ function HomepageHeader() {
           {siteConfig.title}
         </Heading>
         <p className="hero__subtitle">{siteConfig.tagline}</p>
-        {/* <div className={styles.buttons}>
+        <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
             to="/blog">
-            Blog
+            About
           </Link>
-        </div> */}
+        </div>
+      </div>
+      <div className="container">
+        <p className="hero__subtitle">
+          Testing what can go here
+        </p>
       </div>
     </header>
   );
@@ -36,9 +41,14 @@ export default function Home() {
       title={`Hello from ${siteConfig.title}`}
       description="Description will go into a meta tag in <head />">
       <HomepageHeader />
-      <main>
-        <HomepageFeatures />
-      </main>
+      <header className={clsx('hero hero--secondary', styles.subBanner)}>
+        <div className="container">
+          <HomepageFeatures />
+        </div>
+      </header>
+      <div className="container">
+          <p>SKILLS</p>
+        </div>
     </Layout>
   );
 }

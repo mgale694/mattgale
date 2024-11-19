@@ -8,16 +8,74 @@
   text-align: center;
   position: relative;
   overflow: hidden;
+  height: calc(100vh - calc(4 * var(--ifm-navbar-height)));
+  background: linear-gradient(
+    to right,
+    var(--ifm-color-primary-light) 40%,
+    var(--ifm-color-primary) 40%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-@media screen and (max-width: 996px) {
-  .heroBanner {
-    padding: 2rem;
-  }
+.heroBanner::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 5%;
+  width: 35%;
+  height: 100%;
+  background: radial-gradient(
+    circle at left,
+    transparent 75%,
+    var(--ifm-color-primary) 50%
+  );
+  pointer-events: none;
+}
+
+.heroContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.textContent {
+  flex: 1;
+  padding: 1rem;
+}
+
+.features {
+  flex: 1;
+  padding: 1rem;
+}
+
+.hero__title {
+  font-size: 2.5rem;
+  text-align: left;
+}
+
+.hero__subtitle {
+  text-align: left;
+  font-weight: 300;
 }
 
 .buttons {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: left;
+  justify-content: left;
+  margin-top: 1rem;
+}
+
+@media screen and (max-width: 996px) {
+  .heroContainer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .features {
+    margin-top: 2rem;
+  }
 }

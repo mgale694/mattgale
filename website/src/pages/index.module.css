@@ -62,7 +62,7 @@
   width: calc(var(--i) * 4.5vmin);
   aspect-ratio: 1;
   /* border-radius: 50%; */
-  border: 3px solid var(--ifm-color-primary-darkest);
+  border: 5px solid var(--ifm-color-primary-darkest);
   transform-style: preserve-3d;
   transform: rotateY(50deg) translateZ(50px);
   animation: animate 3s ease-in-out calc(var(--i) * 0.08s) infinite;

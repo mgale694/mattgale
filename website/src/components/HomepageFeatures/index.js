@@ -7,7 +7,7 @@ const FeatureList = [
   {
     title: 'About',
     link: '/docs/intro',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    Svg: require('@site/static/img/features/about.svg').default,
     description: (
       <>
         Docusaurus was designed from the ground up to be easily installed and
@@ -18,7 +18,7 @@ const FeatureList = [
   {
     title: 'Blog',
     link: '/blog',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
+    Svg: require('@site/static/img/features/blog.svg').default,
     description: (
       <>
         Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
@@ -29,7 +29,7 @@ const FeatureList = [
   {
     title: 'Showcase',
     link: '/showcase',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
+    Svg: require('@site/static/img/features/showcase.svg').default,
     description: (
       <>
         Extend or customize your website layout by reusing React. Docusaurus can

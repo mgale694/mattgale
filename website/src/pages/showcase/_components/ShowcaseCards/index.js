@@ -28,7 +28,7 @@ function HeadingNoResult() {
 function HeadingFavorites() {
   return (
     <Heading as="h2" className={styles.headingFavorites}>
-      <Translate id="showcase.favoritesList.title">Our favorites</Translate>
+      <Translate id="showcase.favoritesList.title">My favorites</Translate>
       <FavoriteIcon size="large" style={{ marginLeft: '1rem' }} />
     </Heading>
   );

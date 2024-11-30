@@ -4,10 +4,8 @@
  */
 
 .heroBanner {
-  padding: 4rem 0;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
+  padding: 4rem;
+  /* text-align: center; */
 }
 
 @media screen and (max-width: 996px) {
@@ -29,17 +27,57 @@
 }
 
 .heroTitleTextHtml b {
-  color: var(--ifm-color-primary-lighter);
+  color: var(--ifm-color-primary-darkest);
 }
 
-.heroLogo {
-  animation-duration: 2s;
-  animation-name: jack-in-the-box;
-  float: right;
-  margin-top: 20px;
-  padding: 0 20px 20px;
-  height: auto;
+@keyframes animateLinesHorizontal {
+  0% {
+    background-position: 0 0, 0 0;
+  }
+  100% {
+    background-position: 100px 0, 0 0;
+  }
 }
+
+@keyframes animateLinesVertical {
+  0% {
+    background-position: 0 0, 0 0;
+  }
+  100% {
+    background-position: 0 100px, 0 0;
+  }
+}
+.heroLogo {
+  float: right;
+  padding: -160px 200px 150px;
+  height: 90%;
+  /* width: 50%; */
+}
+
+.circle {
+  position: absolute;
+  left: 40%;
+  bottom: 56.8%; /* Added to start the smallest circle at the bottom */
+  background: transparent;
+  width: calc(var(--i) * 4.5vmin);
+  aspect-ratio: 1;
+  /* border-radius: 50%; */
+  border: 3px solid var(--ifm-color-primary-darkest);
+  transform-style: preserve-3d;
+  transform: rotateY(50deg) translateZ(50px);
+  animation: animate 3s ease-in-out calc(var(--i) * 0.08s) infinite;
+}
+
+@keyframes animate {
+  0%,
+  100% {
+    transform: rotateY(70deg) translateZ(50px) translateX(0);
+  }
+  50% {
+    transform: rotateY(70deg) translateZ(50px) translateX(-50vmin);
+  }
+}
+
 @keyframes jack-in-the-box {
   0% {
     opacity: 0;
@@ -59,4 +97,29 @@
     opacity: 1;
     transform: scale(1);
   }
+}
+
+.indexCtas {
+  --ifm-button-size-multiplier: 1.4;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 24px;
+}
+
+.indexCtas a,
+.indexCtas a:hover {
+  color: black;
+}
+
+.indexCtas a:last-of-type {
+  margin: 20px 36px;
+}
+
+.indexCtasGitHubButtonWrapper {
+  display: flex;
+}
+
+.indexCtasGitHubButton {
+  overflow: hidden;
 }

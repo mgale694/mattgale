@@ -10,7 +10,7 @@ import { themes as prismThemes } from 'prism-react-renderer';
 const config = {
   title: 'Matt Gale',
   tagline: 'Quantitative Developer',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/new-logo.svg',
 
   // Set the production url of your site here
   url: 'https://mattgale.com',
@@ -82,7 +82,7 @@ const config = {
         title: 'Matt Gale',
         logo: {
           alt: 'My Site Logo',
-          src: 'img/logo.png',
+          src: 'img/new-logo.svg',
         },
         items: [
           {

@@ -47,7 +47,7 @@ function HomepageHeader() {
           <Link className="button button--secondary" to="/docs">
             <Translate>Contact</Translate>
           </Link>
-          <Link className="button button--info" to="https://docusaurus.new">
+          <Link className="button button--secondary" to="https://docusaurus.new">
             <Translate>GitHub</Translate>
           </Link> 
         </div>

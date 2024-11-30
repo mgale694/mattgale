@@ -17,10 +17,8 @@ function HomepageHeader() {
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
       <div className="container">
         <Heading as="h1" className={styles.heroProjectTagline}>
-          {/* <span
-            className={styles.heroLogo}
-          /> */}
-          <span className={styles.heroLogo}>
+          {/* Uncomment for a ccs animation */}
+          {/* <span className={styles.heroLogo}>
             {circles.map((i) => (
               <div
               key={i}
@@ -28,7 +26,7 @@ function HomepageHeader() {
               style={{ "--i": i }}
             ></div>
             ))}
-          </span>
+          </span> */}
           <span
             className={styles.heroTitleTextHtml}
             dangerouslySetInnerHTML={{

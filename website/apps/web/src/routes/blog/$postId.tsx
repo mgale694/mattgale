@@ -1,17 +1,73 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, CalendarDays, Clock } from "lucide-react";
+import { ArrowLeft, CalendarDays, Clock, Copy, Check } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { getBlogPost } from "@/lib/blog";
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
-import 'highlight.js/styles/github-dark.css';
+import { useState } from 'react';
+import '../../code-highlight.css';
 
 export const Route = createFileRoute("/blog/$postId")({
   component: BlogPostComponent,
 });
+
+// Custom CodeBlock component with copy functionality
+function CodeBlock({ children, className, ...props }: any) {
+  const [copied, setCopied] = useState(false);
+  const isCodeBlock = className?.includes('language-');
+  
+  if (!isCodeBlock) {
+    return (
+      <code className="bg-muted px-1.5 py-0.5 rounded text-sm font-mono" {...props}>
+        {children}
+      </code>
+    );
+  }
+
+  const codeText = children?.toString() || '';
+  const language = className?.replace('language-', '') || '';
+
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(codeText);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
+  };
+
+  return (
+    <div className="code-block-container">
+      <div className="code-block-header">
+        <span className="code-block-language">
+          {language}
+        </span>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={copyToClipboard}
+          className="code-block-copy-button"
+          title={copied ? "Copied!" : "Copy code"}
+        >
+          {copied ? (
+            <Check className="h-3 w-3 text-green-500" />
+          ) : (
+            <Copy className="h-3 w-3" />
+          )}
+        </Button>
+      </div>
+      <pre className="code-block-pre" {...props}>
+        <code className={className}>
+          {children}
+        </code>
+      </pre>
+    </div>
+  );
+}
 
 function BlogPostComponent() {
   const params = Route.useParams();
@@ -102,11 +158,22 @@ function BlogPostComponent() {
                 </p>
               ),
               // Customize code blocks styling
-              pre: ({ children, ...props }) => (
-                <pre className="bg-muted p-4 rounded-lg overflow-x-auto border my-6" {...props}>
-                  {children}
-                </pre>
-              ),
+              pre: ({ children, ...props }) => {
+                // Extract the code element from children
+                const codeElement = children as any;
+                if (codeElement?.props?.className?.includes('language-')) {
+                  return (
+                    <CodeBlock className={codeElement.props.className} {...props}>
+                      {codeElement.props.children}
+                    </CodeBlock>
+                  );
+                }
+                return (
+                  <pre className="bg-muted p-4 rounded-lg overflow-x-auto border my-6" {...props}>
+                    {children}
+                  </pre>
+                );
+              },
               // Customize inline code styling
               code: ({ children, className, ...props }) => {
                 const isBlock = className?.includes('language-');
@@ -115,9 +182,9 @@ function BlogPostComponent() {
                     {children}
                   </code>
                 ) : (
-                  <code className="bg-muted px-1.5 py-0.5 rounded text-sm font-mono" {...props}>
+                  <CodeBlock className={className} {...props}>
                     {children}
-                  </code>
+                  </CodeBlock>
                 );
               },
               // Customize lists

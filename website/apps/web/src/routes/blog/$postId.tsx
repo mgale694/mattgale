@@ -4,6 +4,10 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, CalendarDays, Clock } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { getBlogPost } from "@/lib/blog";
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import rehypeHighlight from 'rehype-highlight';
+import 'highlight.js/styles/github-dark.css';
 
 export const Route = createFileRoute("/blog/$postId")({
   component: BlogPostComponent,
@@ -70,18 +74,90 @@ function BlogPostComponent() {
           </div>
         </header>
 
-        <div className="prose prose-neutral dark:prose-invert max-w-none">
-          <div 
-            className="whitespace-pre-wrap" 
-            dangerouslySetInnerHTML={{ 
-              __html: post.content
-                .replace(/\n/g, '<br/>')
-                .replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre class="bg-muted p-4 rounded-lg overflow-x-auto"><code>$2</code></pre>')
-                .replace(/`([^`]+)`/g, '<code class="bg-muted px-1 rounded">$1</code>')
-                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                .replace(/\*(.*?)\*/g, '<em>$1</em>')
-            }} 
-          />
+        <div className="prose prose-neutral dark:prose-invert max-w-none prose-lg">
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            rehypePlugins={[rehypeHighlight]}
+            components={{
+              // Customize headings
+              h1: ({ children, ...props }) => (
+                <h1 className="text-4xl font-bold mt-8 mb-4 text-foreground" {...props}>
+                  {children}
+                </h1>
+              ),
+              h2: ({ children, ...props }) => (
+                <h2 className="text-3xl font-semibold mt-8 mb-4 text-foreground" {...props}>
+                  {children}
+                </h2>
+              ),
+              h3: ({ children, ...props }) => (
+                <h3 className="text-2xl font-semibold mt-6 mb-3 text-foreground" {...props}>
+                  {children}
+                </h3>
+              ),
+              // Customize paragraphs
+              p: ({ children, ...props }) => (
+                <p className="mb-4 leading-7 text-foreground" {...props}>
+                  {children}
+                </p>
+              ),
+              // Customize code blocks styling
+              pre: ({ children, ...props }) => (
+                <pre className="bg-muted p-4 rounded-lg overflow-x-auto border my-6" {...props}>
+                  {children}
+                </pre>
+              ),
+              // Customize inline code styling
+              code: ({ children, className, ...props }) => {
+                const isBlock = className?.includes('language-');
+                return isBlock ? (
+                  <code className={className} {...props}>
+                    {children}
+                  </code>
+                ) : (
+                  <code className="bg-muted px-1.5 py-0.5 rounded text-sm font-mono" {...props}>
+                    {children}
+                  </code>
+                );
+              },
+              // Customize lists
+              ul: ({ children, ...props }) => (
+                <ul className="list-disc list-inside mb-4 space-y-1" {...props}>
+                  {children}
+                </ul>
+              ),
+              ol: ({ children, ...props }) => (
+                <ol className="list-decimal list-inside mb-4 space-y-1" {...props}>
+                  {children}
+                </ol>
+              ),
+              li: ({ children, ...props }) => (
+                <li className="text-foreground" {...props}>
+                  {children}
+                </li>
+              ),
+              // Customize links
+              a: ({ children, href, ...props }) => (
+                <a 
+                  href={href} 
+                  className="text-primary hover:underline font-medium" 
+                  target={href?.startsWith('http') ? '_blank' : undefined}
+                  rel={href?.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  {...props}
+                >
+                  {children}
+                </a>
+              ),
+              // Customize blockquotes
+              blockquote: ({ children, ...props }) => (
+                <blockquote className="border-l-4 border-primary pl-4 italic my-6 text-muted-foreground" {...props}>
+                  {children}
+                </blockquote>
+              ),
+            }}
+          >
+            {post.content}
+          </ReactMarkdown>
         </div>
       </article>
     </div>

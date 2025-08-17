@@ -1,41 +1,45 @@
-# Website
+# my-better-t-app
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
+This project was created with [Better-T-Stack](https://github.com/AmanVarshney01/create-better-t-stack), a modern TypeScript stack that combines React, TanStack Router, and more.
 
-### Installation
+## Features
 
-```
-$ yarn
-```
+- **TypeScript** - For type safety and improved developer experience
+- **TanStack Router** - File-based routing with full type safety
+- **TailwindCSS** - Utility-first CSS for rapid UI development
+- **shadcn/ui** - Reusable UI components
+- **Turborepo** - Optimized monorepo build system
 
-### Local Development
+## Getting Started
 
-```
-$ yarn start
-```
+First, install the dependencies:
 
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
-
-### Build
-
-```
-$ yarn build
+```bash
+bun install
 ```
 
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
 
-### Deployment
+Then, run the development server:
 
-Using SSH:
-
-```
-$ USE_SSH=true yarn deploy
+```bash
+bun dev
 ```
 
-Not using SSH:
+Open [http://localhost:3001](http://localhost:3001) in your browser to see the web application.
+
+
+
+## Project Structure
 
 ```
-$ GIT_USER=<Your GitHub username> yarn deploy
+my-better-t-app/
+├── apps/
+│   ├── web/         # Frontend application (React + TanStack Router)
 ```
 
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+## Available Scripts
+
+- `bun dev`: Start all applications in development mode
+- `bun build`: Build all applications
+- `bun dev:web`: Start only the web application
+- `bun check-types`: Check TypeScript types across all apps

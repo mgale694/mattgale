@@ -1,0 +1,148 @@
+/* Custom syntax highlighting that adapts to light/dark theme */
+
+/* Light theme (default) */
+.hljs {
+  background: transparent !important;
+  color: var(--foreground) !important;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-built_in,
+.hljs-name,
+.hljs-tag {
+  color: #d73a49;
+}
+
+.hljs-string,
+.hljs-doctag,
+.hljs-quote {
+  color: #032f62;
+}
+
+.hljs-number,
+.hljs-literal {
+  color: #005cc5;
+}
+
+.hljs-comment,
+.hljs-meta {
+  color: #6a737d;
+}
+
+.hljs-variable,
+.hljs-template-variable,
+.hljs-attribute,
+.hljs-attr {
+  color: #e36209;
+}
+
+.hljs-function,
+.hljs-title {
+  color: #6f42c1;
+}
+
+.hljs-type {
+  color: #005cc5;
+}
+
+/* Dark theme */
+.dark .hljs {
+  background: transparent !important;
+  color: var(--foreground) !important;
+}
+
+.dark .hljs-keyword,
+.dark .hljs-selector-tag,
+.dark .hljs-built_in,
+.dark .hljs-name,
+.dark .hljs-tag {
+  color: #ff7b72;
+}
+
+.dark .hljs-string,
+.dark .hljs-doctag,
+.dark .hljs-quote {
+  color: #a5d6ff;
+}
+
+.dark .hljs-number,
+.dark .hljs-literal {
+  color: #79c0ff;
+}
+
+.dark .hljs-comment,
+.dark .hljs-meta {
+  color: #8b949e;
+}
+
+.dark .hljs-variable,
+.dark .hljs-template-variable,
+.dark .hljs-attribute,
+.dark .hljs-attr {
+  color: #ffa657;
+}
+
+.dark .hljs-function,
+.dark .hljs-title {
+  color: #d2a8ff;
+}
+
+.dark .hljs-type {
+  color: #79c0ff;
+}
+
+/* Code block styling */
+.code-block-container {
+  margin: 1.5rem 0;
+  background: var(--codeblock);
+  color: var(--card-foreground);
+  border-radius: 0.75rem;
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+.code-block-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  padding: 0.75rem 1rem;
+}
+
+.code-block-language {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--muted-foreground);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.code-block-copy-button {
+  height: 1.5rem;
+  width: 1.5rem;
+  padding: 0;
+  opacity: 0.7;
+  transition: all 0.2s;
+}
+
+.code-block-copy-button:hover {
+  opacity: 1;
+}
+
+.code-block-pre {
+  background: var(--codeblock);
+  padding: 1rem;
+  border-radius: 0;
+  overflow-x: auto;
+  border: none;
+  margin: 0;
+}
+
+.code-block-pre code {
+  font-size: 0.875rem;
+  line-height: 1.6;
+}

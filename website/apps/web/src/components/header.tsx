@@ -1,4 +1,6 @@
 import { Link } from "@tanstack/react-router";
+import { Github, Linkedin } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 import { ModeToggle } from "./mode-toggle";
 
@@ -30,6 +32,36 @@ export default function Header() {
           })}
         </nav>
         <div className="flex items-center gap-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            asChild
+            className="hover:text-primary"
+          >
+            <a
+              href="https://github.com/mgale694"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub"
+            >
+              <Github className="w-5 h-5" />
+            </a>
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            asChild
+            className="hover:text-primary"
+          >
+            <a
+              href="https://linkedin.com/in/mattgale"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+            >
+              <Linkedin className="w-5 h-5" />
+            </a>
+          </Button>
           <ModeToggle />
         </div>
       </div>

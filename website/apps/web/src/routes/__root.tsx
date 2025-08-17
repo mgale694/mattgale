@@ -1,4 +1,5 @@
 import Header from "@/components/header";
+import Footer from "@/components/footer";
 import Loader from "@/components/loader";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
@@ -49,9 +50,12 @@ function RootComponent() {
         disableTransitionOnChange
         storageKey="vite-ui-theme"
       >
-        <div className="grid grid-rows-[auto_1fr] h-svh">
+        <div className="grid grid-rows-[auto_1fr_auto] min-h-screen">
           <Header />
-          {isFetching ? <Loader /> : <Outlet />}
+          <main className="flex-1">
+            {isFetching ? <Loader /> : <Outlet />}
+          </main>
+          <Footer />
         </div>
         <Toaster richColors />
       </ThemeProvider>

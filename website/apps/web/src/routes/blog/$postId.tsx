@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { TableOfContents } from "@/components/table-of-contents";
 import { ArrowLeft, CalendarDays, Clock, Copy, Check } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { getBlogPost } from "@/lib/blog";
@@ -94,41 +95,43 @@ function BlogPostComponent() {
   }
 
   return (
-    <div className="container mx-auto max-w-4xl px-4 py-8">
-      <article>
-        <header className="mb-8">
-          <Button variant="outline" size="sm" asChild className="mb-6">
-            <Link to="/blog">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Blog
-            </Link>
-          </Button>
-          
-          <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
-          
-          <div className="flex items-center gap-4 text-muted-foreground mb-4">
-            <div className="flex items-center gap-1">
-              <CalendarDays className="w-4 h-4" />
-              {new Date(post.date).toLocaleDateString('en-US', { 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
-              })}
+    <div className="container mx-auto max-w-7xl px-4 py-8">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
+        {/* Main Content */}
+        <article className="min-w-0">
+          <header className="mb-8">
+            <Button variant="outline" size="sm" asChild className="mb-6">
+              <Link to="/blog">
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back to Blog
+              </Link>
+            </Button>
+            
+            <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
+            
+            <div className="flex items-center gap-4 text-muted-foreground mb-4">
+              <div className="flex items-center gap-1">
+                <CalendarDays className="w-4 h-4" />
+                {new Date(post.date).toLocaleDateString('en-US', { 
+                  year: 'numeric', 
+                  month: 'long', 
+                  day: 'numeric' 
+                })}
+              </div>
+              <div className="flex items-center gap-1">
+                <Clock className="w-4 h-4" />
+                {post.readTime}
+              </div>
             </div>
-            <div className="flex items-center gap-1">
-              <Clock className="w-4 h-4" />
-              {post.readTime}
+            
+            <div className="flex flex-wrap gap-2">
+              {post.tags.map((tag: string) => (
+                <Badge key={tag} variant="secondary">
+                  {tag}
+                </Badge>
+              ))}
             </div>
-          </div>
-          
-          <div className="flex flex-wrap gap-2">
-            {post.tags.map((tag: string) => (
-              <Badge key={tag} variant="secondary">
-                {tag}
-              </Badge>
-            ))}
-          </div>
-        </header>
+          </header>
 
         <div className="prose prose-neutral dark:prose-invert max-w-none prose-lg">
           <ReactMarkdown
@@ -136,21 +139,39 @@ function BlogPostComponent() {
             rehypePlugins={[rehypeHighlight]}
             components={{
               // Customize headings
-              h1: ({ children, ...props }) => (
-                <h1 className="text-4xl font-bold mt-8 mb-4 text-foreground" {...props}>
-                  {children}
-                </h1>
-              ),
-              h2: ({ children, ...props }) => (
-                <h2 className="text-3xl font-semibold mt-8 mb-4 text-foreground" {...props}>
-                  {children}
-                </h2>
-              ),
-              h3: ({ children, ...props }) => (
-                <h3 className="text-2xl font-semibold mt-6 mb-3 text-foreground" {...props}>
-                  {children}
-                </h3>
-              ),
+              h1: ({ children, ...props }) => {
+                const id = String(children)
+                  .toLowerCase()
+                  .replace(/[^a-z0-9]+/g, '-')
+                  .replace(/(^-|-$)/g, '');
+                return (
+                  <h1 id={id} className="text-4xl font-bold mt-8 mb-4 text-foreground scroll-mt-4" {...props}>
+                    {children}
+                  </h1>
+                );
+              },
+              h2: ({ children, ...props }) => {
+                const id = String(children)
+                  .toLowerCase()
+                  .replace(/[^a-z0-9]+/g, '-')
+                  .replace(/(^-|-$)/g, '');
+                return (
+                  <h2 id={id} className="text-3xl font-semibold mt-8 mb-4 text-foreground scroll-mt-4" {...props}>
+                    {children}
+                  </h2>
+                );
+              },
+              h3: ({ children, ...props }) => {
+                const id = String(children)
+                  .toLowerCase()
+                  .replace(/[^a-z0-9]+/g, '-')
+                  .replace(/(^-|-$)/g, '');
+                return (
+                  <h3 id={id} className="text-2xl font-semibold mt-6 mb-3 text-foreground scroll-mt-4" {...props}>
+                    {children}
+                  </h3>
+                );
+              },
               // Customize paragraphs
               p: ({ children, ...props }) => (
                 <p className="mb-4 leading-7 text-foreground" {...props}>
@@ -227,6 +248,12 @@ function BlogPostComponent() {
           </ReactMarkdown>
         </div>
       </article>
+
+      {/* Table of Contents - Desktop sidebar */}
+      <aside className="hidden lg:block">
+        <TableOfContents content={post.content} />
+      </aside>
+    </div>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-name: Deploy mattgale.github.io
+name: Deploy mgale694.github.io
 
 on:
   push:

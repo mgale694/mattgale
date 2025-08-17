@@ -5,6 +5,9 @@ import path from "node:path";
 import { defineConfig } from "vite";
 
 export default defineConfig({
+  base: process.env.NODE_ENV === 'production' 
+    ? process.env.VITE_BASE_PATH || '/mattgale.com/'
+    : '/',
   plugins: [
     tailwindcss(),
     tanstackRouter({}),

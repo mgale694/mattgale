@@ -57,70 +57,70 @@ function HomeComponent() {
                   <CardDescription>Explore my coding projects</CardDescription>
                 </div>
               </div>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground mb-4">
-              Discover the applications and tools I've built, from personal experiments to production systems.
-            </p>
-            <Button variant="outline" size="sm" asChild className="w-full">
-              <Link to="/showcase">
-                View Showcase
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Link>
-            </Button>
-          </CardContent>
-        </Card>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground mb-4">
+                Discover the applications and tools I've built, from personal experiments to production systems.
+              </p>
+              <Button variant="outline" size="sm" asChild className="w-full">
+                <Link to="/showcase">
+                  View Showcase
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Link>
+              </Button>
+            </CardContent>
+          </Card>
 
-        <Card className="hover:shadow-lg transition-shadow">
-          <CardHeader>
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-primary/10 rounded-lg">
-                <FileText className="w-6 h-6 text-primary" />
+          <Card className="hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-primary/10 rounded-lg">
+                  <FileText className="w-6 h-6 text-primary" />
+                </div>
+                <div>
+                  <CardTitle>Blog</CardTitle>
+                  <CardDescription>Read my latest thoughts</CardDescription>
+                </div>
               </div>
-              <div>
-                <CardTitle>Blog</CardTitle>
-                <CardDescription>Read my latest thoughts</CardDescription>
-              </div>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground mb-4">
-              Tutorials, insights, and thoughts about software development and technology trends.
-            </p>
-            <Button variant="outline" size="sm" asChild className="w-full">
-              <Link to="/blog">
-                Read Posts
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Link>
-            </Button>
-          </CardContent>
-        </Card>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground mb-4">
+                Tutorials, insights, and thoughts about software development and technology trends.
+              </p>
+              <Button variant="outline" size="sm" asChild className="w-full">
+                <Link to="/blog">
+                  Read Posts
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Link>
+              </Button>
+            </CardContent>
+          </Card>
 
-        <Card className="hover:shadow-lg transition-shadow">
-          <CardHeader>
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-primary/10 rounded-lg">
-                <User className="w-6 h-6 text-primary" />
+          <Card className="hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-primary/10 rounded-lg">
+                  <User className="w-6 h-6 text-primary" />
+                </div>
+                <div>
+                  <CardTitle>About</CardTitle>
+                  <CardDescription>Get to know me better</CardDescription>
+                </div>
               </div>
-              <div>
-                <CardTitle>About</CardTitle>
-                <CardDescription>Get to know me better</CardDescription>
-              </div>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground mb-4">
-              Learn about my background, experience, and the technologies I love working with.
-            </p>
-            <Button variant="outline" size="sm" asChild className="w-full">
-              <Link to="/about">
-                Learn More
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Link>
-            </Button>
-          </CardContent>
-        </Card>
-      </section>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground mb-4">
+                Learn about my background, experience, and the technologies I love working with.
+              </p>
+              <Button variant="outline" size="sm" asChild className="w-full">
+                <Link to="/about">
+                  Learn More
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Link>
+              </Button>
+            </CardContent>
+          </Card>
+        </section>
 
         {/* Contact Section */}
         <section className="text-center py-12 bg-muted/50 rounded-lg relative z-10">

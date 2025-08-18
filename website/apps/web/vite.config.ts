@@ -16,4 +16,33 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    // Optimize for Cloudflare Pages
+    target: 'esnext',
+    minify: 'esbuild',
+    cssMinify: true,
+    rollupOptions: {
+      output: {
+        // Better chunk splitting for caching
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          router: ['@tanstack/react-router'],
+          ui: ['lucide-react', 'class-variance-authority', 'clsx'],
+        },
+      },
+    },
+    // Enable source maps for better debugging
+    sourcemap: false,
+    // Optimize chunk size warning limit
+    chunkSizeWarningLimit: 1000,
+  },
+  // Optimize dev server
+  server: {
+    open: false,
+    host: true,
+  },
+  // Enable experimental features for better performance
+  esbuild: {
+    legalComments: 'none',
+  },
 });

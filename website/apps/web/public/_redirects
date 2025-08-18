@@ -1,0 +1,10 @@
+# Cloudflare Pages redirects for SPA routing
+
+# Handle SPA routing - redirect all non-asset requests to index.html
+/*    /index.html   200
+
+# Handle specific routes (optional - Cloudflare will use the catch-all above)
+/about    /index.html   200
+/blog     /index.html   200
+/blog/*   /index.html   200
+/showcase /index.html   200

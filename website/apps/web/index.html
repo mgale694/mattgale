@@ -6,6 +6,23 @@
     <title>Matt Gale - Personal Website</title>
     <meta name="description" content="Personal website and blog of Matt Gale - Software Developer" />
     
+    <!-- Prevent white flash by detecting theme before page loads -->
+    <script>
+      (function() {
+        try {
+          const theme = localStorage.getItem('theme') || 
+                       (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          if (theme === 'dark') {
+            document.documentElement.classList.add('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+    
+    <!-- Preload critical resources -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link rel="dns-prefetch" href="https://fonts.bunny.net">
+    
     <!-- GitHub Pages SPA redirect script -->
     <script>
       // Single Page Apps for GitHub Pages

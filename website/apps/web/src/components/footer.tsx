@@ -4,7 +4,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t bg-background">
+    <footer className="border-t bg-footer">
       <div className="container mx-auto max-w-6xl px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Brand Section */}
@@ -57,7 +57,7 @@ export default function Footer() {
                 <Linkedin className="w-5 h-5" />
               </a>
               <a
-                href="mailto:hello@matthewgale.co.uk"
+                href="mailto:hello@mattgale.com"
                 className="text-muted-foreground hover:text-primary transition-colors"
                 aria-label="Email"
               >

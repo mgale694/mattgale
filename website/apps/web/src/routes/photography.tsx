@@ -74,6 +74,16 @@ function PhotographyComponent() {
       try {
         const photos = await getAllPhotos();
         setAllPhotos(photos);
+        
+        // Preload the first 3 images for better initial performance
+        const preloadImages = photos.slice(0, 3);
+        preloadImages.forEach(photo => {
+          const link = document.createElement('link');
+          link.rel = 'preload';
+          link.as = 'image';
+          link.href = photo.url;
+          document.head.appendChild(link);
+        });
       } catch (error) {
         console.error('Error loading photos:', error);
       } finally {
@@ -288,25 +298,62 @@ function PhotographyComponent() {
 }
 
 function PhotoGrid({ photos, onPhotoClick }: { photos: PhotoMetadata[]; onPhotoClick: (photo: PhotoMetadata) => void }) {
+  const [visibleCount, setVisibleCount] = useState(12); // Start with 12 photos
+  
+  const visiblePhotos = photos.slice(0, visibleCount);
+  const hasMore = visibleCount < photos.length;
+  
+  const loadMore = () => {
+    setVisibleCount(prev => Math.min(prev + 12, photos.length));
+  };
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {photos.map((photo) => (
-        <PhotoCard key={photo.id} photo={photo} onClick={() => onPhotoClick(photo)} />
-      ))}
+    <div className="space-y-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {visiblePhotos.map((photo) => (
+          <PhotoCard key={photo.id} photo={photo} onClick={() => onPhotoClick(photo)} />
+        ))}
+      </div>
+      
+      {hasMore && (
+        <div className="text-center">
+          <Button 
+            onClick={loadMore}
+            variant="outline"
+            size="lg"
+            className="px-8"
+          >
+            Load More Photos ({photos.length - visibleCount} remaining)
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
 
 function PhotoCard({ photo, onClick }: { photo: PhotoMetadata; onClick: () => void }) {
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
+
   return (
     <Card className="group overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer" onClick={onClick}>
-      <div className="aspect-[4/3] overflow-hidden bg-muted">
+      <div className="aspect-[4/3] overflow-hidden bg-muted relative">
+        {!imageLoaded && !imageError && (
+          <div className="absolute inset-0 bg-muted animate-pulse flex items-center justify-center">
+            <ImageIcon className="w-8 h-8 text-muted-foreground" />
+          </div>
+        )}
         <img
           src={photo.url}
           alt={photo.title || `Photo from ${photo.location}`}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          className={`w-full h-full object-cover group-hover:scale-105 transition-all duration-300 ${
+            imageLoaded ? 'opacity-100' : 'opacity-0'
+          }`}
           loading="lazy"
+          decoding="async"
+          onLoad={() => setImageLoaded(true)}
           onError={(e) => {
+            setImageError(true);
             // Fallback for missing images
             const target = e.target as HTMLImageElement;
             target.src = `data:image/svg+xml,${encodeURIComponent(`

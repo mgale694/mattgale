@@ -163,6 +163,11 @@ function CodeBlock({ children, className, ...props }: any) {
 function BlogPostComponent() {
   const { post } = Route.useLoaderData();
 
+  // Add some loading state to prevent flash
+  useEffect(() => {
+    document.body.classList.add('loaded');
+  }, []);
+
   if (!post) {
     return (
       <div className="container mx-auto max-w-4xl px-4 py-8">

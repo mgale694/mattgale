@@ -37,7 +37,7 @@ export default defineConfig({
           if (/\.(css)$/.test(assetInfo.name || '')) {
             return `assets/css/[name]-[hash].${ext}`;
           }
-          if (/\.(png|jpe?g|svg|gif|tiff|bmp|ico)$/i.test(assetInfo.name || '')) {
+          if (/\.(png|jpe?g|svg|gif|tiff|bmp|ico|webp)$/i.test(assetInfo.name || '')) {
             return `assets/images/[name]-[hash].${ext}`;
           }
           return `assets/[name]-[hash].${ext}`;

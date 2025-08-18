@@ -135,3 +135,46 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* Performance optimizations for smooth loading */
+@layer utilities {
+  .prevent-flash {
+    /* Prevent flash of unstyled content */
+    visibility: hidden;
+  }
+
+  .prevent-flash.loaded {
+    visibility: visible;
+  }
+
+  /* Image loading optimizations */
+  img {
+    /* Prevent layout shift during image loading */
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 400px;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Hardware acceleration for better performance */
+  .hw-accelerated {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+
+  /* Reduce motion for users who prefer it */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}

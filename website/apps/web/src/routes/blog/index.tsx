@@ -1,14 +1,15 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CalendarDays, Clock } from "lucide-react";
-import { getAllBlogPosts, getFeaturedBlogPosts } from "@/lib/blog";
+import { getAllBlogPosts, getFeaturedBlogPosts, groupPostsByDate, type BlogPost } from "@/lib/blog";
+import { useState, useEffect } from "react";
 
 export const Route = createFileRoute("/blog/")({
   component: BlogComponent,
 });
 
-function BlogPostCard({ post }: { post: ReturnType<typeof getAllBlogPosts>[0] }) {
+function BlogPostCard({ post }: { post: BlogPost }) {
   return (
     <Card className="h-full hover:shadow-lg transition-shadow">
       <CardHeader>
@@ -62,9 +63,44 @@ function BlogPostCard({ post }: { post: ReturnType<typeof getAllBlogPosts>[0] })
 }
 
 function BlogComponent() {
-  const allPosts = getAllBlogPosts();
-  const featuredPosts = getFeaturedBlogPosts();
-  const recentPosts = allPosts.filter(p => !p.featured);
+  const [allPosts, setAllPosts] = useState<BlogPost[]>([]);
+  const [featuredPosts, setFeaturedPosts] = useState<BlogPost[]>([]);
+  const [groupedPosts, setGroupedPosts] = useState<Record<string, Record<string, BlogPost[]>>>({});
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadPosts = async () => {
+      try {
+        const posts = await getAllBlogPosts();
+        const featured = await getFeaturedBlogPosts();
+        const nonFeatured = posts.filter(p => !p.featured);
+        const grouped = groupPostsByDate(nonFeatured);
+        
+        setAllPosts(posts);
+        setFeaturedPosts(featured);
+        setGroupedPosts(grouped);
+      } catch (error) {
+        console.error('Error loading blog posts:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadPosts();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="container mx-auto max-w-6xl px-4 py-8">
+        <div className="mb-12">
+          <h1 className="text-4xl font-bold mb-4">Blog</h1>
+          <p className="text-xl text-muted-foreground max-w-3xl">
+            Loading blog posts...
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto max-w-6xl px-4 py-8">
@@ -88,10 +124,33 @@ function BlogComponent() {
       )}
 
       <section>
-        <h2 className="text-2xl font-semibold mb-6">Recent Posts</h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {recentPosts.map((post) => (
-            <BlogPostCard key={post.id} post={post} />
+        <h2 className="text-2xl font-semibold mb-8">Posts by Year</h2>
+        <div className="space-y-12">
+          {Object.entries(groupedPosts)
+            .sort(([yearA], [yearB]) => parseInt(yearB) - parseInt(yearA))
+            .map(([year, months]) => (
+            <div key={year} className="space-y-8">
+              <h3 className="text-3xl font-bold text-primary border-b pb-2">{year}</h3>
+              
+              <div className="space-y-8">
+                {Object.entries(months)
+                  .sort(([monthA], [monthB]) => {
+                    const monthOrder = ['January', 'February', 'March', 'April', 'May', 'June', 
+                                      'July', 'August', 'September', 'October', 'November', 'December'];
+                    return monthOrder.indexOf(monthB) - monthOrder.indexOf(monthA);
+                  })
+                  .map(([month, posts]) => (
+                  <div key={month}>
+                    <h4 className="text-xl font-semibold mb-4 text-muted-foreground">{month}</h4>
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {posts.map((post: BlogPost) => (
+                        <BlogPostCard key={post.id} post={post} />
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           ))}
         </div>
       </section>

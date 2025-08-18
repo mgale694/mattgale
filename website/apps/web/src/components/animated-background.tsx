@@ -82,9 +82,9 @@ export function AnimatedBackground({ className = '' }: AnimatedBackgroundProps) 
     };
 
     const updateParticles = () => {
-      const container = canvas.parentElement;
-      if (!container) return;
-      const rect = container.getBoundingClientRect();
+        const container = canvas.parentElement;
+        if (!container) return;
+        const rect = container.getBoundingClientRect();
       const particles = particlesRef.current;
       const contractForce = isHovered ? 0.015 : 0;
       const centerX = rect.width / 2;
@@ -109,8 +109,8 @@ export function AnimatedBackground({ className = '' }: AnimatedBackgroundProps) 
           
           // Apply explosion force for 500ms (shorter duration), with decreasing intensity
           if (timeSinceExplosion < 500 && explosionDistance > 0) {
-            const explosionForce = 3 * (1 - timeSinceExplosion / 500);
-            const maxExplosionDistance = 200;
+            const explosionForce = 3 * (1 - timeSinceExplosion / 500); // Reduced force and shorter duration
+            const maxExplosionDistance = 200; // Reduced from 400 to 200 for shorter range
             
             if (explosionDistance < maxExplosionDistance) {
               // Closer particles get more force
@@ -125,7 +125,7 @@ export function AnimatedBackground({ className = '' }: AnimatedBackgroundProps) 
         
         if (distance > 0) {
           // Closer particles move faster - inverse relationship with distance
-          const maxAttractionDistance = 300;
+          const maxAttractionDistance = 500; // Only attract within this radius
           const minAttractionForce = 0.0003;
           const maxAttractionForce = 0.002;
           
@@ -178,6 +178,7 @@ export function AnimatedBackground({ className = '' }: AnimatedBackgroundProps) 
       ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
       // Get CSS custom property for particle color
+      const computedStyle = getComputedStyle(document.documentElement);
       const isDark = document.documentElement.classList.contains('dark');
       const particleColor = isDark ? 'rgba(255, 255, 255, 0.6)' : 'rgba(0, 0, 0, 0.6)';
       const connectionColor = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
@@ -200,7 +201,7 @@ export function AnimatedBackground({ className = '' }: AnimatedBackgroundProps) 
         
         // Sort by distance and take the 3-5 nearest neighbors
         distances.sort((a, b) => a.distance - b.distance);
-        const connectionsCount = Math.min(3 + Math.floor(Math.random() * 3), distances.length);
+        const connectionsCount = Math.min(3 + Math.floor(Math.random() * 3), distances.length); // 3-5 connections
         
         for (let k = 0; k < connectionsCount; k++) {
           const neighbor = distances[k];
@@ -208,10 +209,10 @@ export function AnimatedBackground({ className = '' }: AnimatedBackgroundProps) 
           
           // Only draw each connection once (avoid duplicates)
           if (i < j) {
-            const maxConnectionDistance = 300;
+            const maxConnectionDistance = 10000; // Maximum distance for any connection
             if (neighbor.distance < maxConnectionDistance) {
               const opacity = 1 - neighbor.distance / maxConnectionDistance;
-              ctx.globalAlpha = opacity * (isHovered ? 0.4 : 0.2);
+              ctx.globalAlpha = opacity * (isHovered ? 0.8 : 0.6);
               ctx.beginPath();
               ctx.moveTo(particles[i].x, particles[i].y);
               ctx.lineTo(particles[j].x, particles[j].y);
@@ -283,7 +284,7 @@ export function AnimatedBackground({ className = '' }: AnimatedBackgroundProps) 
 
     // Event listeners
     window.addEventListener('resize', handleResize);
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove); // Changed to window for full screen tracking
     window.addEventListener('click', handleMouseClick);
 
     return () => {
@@ -291,11 +292,10 @@ export function AnimatedBackground({ className = '' }: AnimatedBackgroundProps) 
         cancelAnimationFrame(animationRef.current);
       }
       window.removeEventListener('resize', handleResize);
-      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mousemove', handleMouseMove); // Updated cleanup
       window.removeEventListener('click', handleMouseClick);
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, [isHovered, getParticleCount]);
+  }, [isHovered]);
 
   return (
     <div className={`absolute inset-0 w-full h-full ${className}`}>

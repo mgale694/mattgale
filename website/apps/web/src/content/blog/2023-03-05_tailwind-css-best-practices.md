@@ -1,6 +1,6 @@
 ---
 title: "Tailwind CSS Best Practices for Large Applications"
-date: "2024-03-05"
+date: "2023-03-05"
 excerpt: "Learn how to organize and maintain Tailwind CSS in large-scale applications while keeping your stylesheets clean and performant."
 tags: ["CSS", "Tailwind", "Design Systems"]
 featured: false

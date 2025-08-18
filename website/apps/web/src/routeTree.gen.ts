@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ShowcaseRouteImport } from './routes/showcase'
+import { Route as PhotographyRouteImport } from './routes/photography'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BlogIndexRouteImport } from './routes/blog/index'
@@ -18,6 +19,11 @@ import { Route as BlogPostIdRouteImport } from './routes/blog/$postId'
 const ShowcaseRoute = ShowcaseRouteImport.update({
   id: '/showcase',
   path: '/showcase',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PhotographyRoute = PhotographyRouteImport.update({
+  id: '/photography',
+  path: '/photography',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -44,6 +50,7 @@ const BlogPostIdRoute = BlogPostIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/photography': typeof PhotographyRoute
   '/showcase': typeof ShowcaseRoute
   '/blog/$postId': typeof BlogPostIdRoute
   '/blog': typeof BlogIndexRoute
@@ -51,6 +58,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/photography': typeof PhotographyRoute
   '/showcase': typeof ShowcaseRoute
   '/blog/$postId': typeof BlogPostIdRoute
   '/blog': typeof BlogIndexRoute
@@ -59,21 +67,36 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/photography': typeof PhotographyRoute
   '/showcase': typeof ShowcaseRoute
   '/blog/$postId': typeof BlogPostIdRoute
   '/blog/': typeof BlogIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/showcase' | '/blog/$postId' | '/blog'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/photography'
+    | '/showcase'
+    | '/blog/$postId'
+    | '/blog'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/showcase' | '/blog/$postId' | '/blog'
-  id: '__root__' | '/' | '/about' | '/showcase' | '/blog/$postId' | '/blog/'
+  to: '/' | '/about' | '/photography' | '/showcase' | '/blog/$postId' | '/blog'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/photography'
+    | '/showcase'
+    | '/blog/$postId'
+    | '/blog/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  PhotographyRoute: typeof PhotographyRoute
   ShowcaseRoute: typeof ShowcaseRoute
   BlogPostIdRoute: typeof BlogPostIdRoute
   BlogIndexRoute: typeof BlogIndexRoute
@@ -86,6 +109,13 @@ declare module '@tanstack/react-router' {
       path: '/showcase'
       fullPath: '/showcase'
       preLoaderRoute: typeof ShowcaseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/photography': {
+      id: '/photography'
+      path: '/photography'
+      fullPath: '/photography'
+      preLoaderRoute: typeof PhotographyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -122,6 +152,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  PhotographyRoute: PhotographyRoute,
   ShowcaseRoute: ShowcaseRoute,
   BlogPostIdRoute: BlogPostIdRoute,
   BlogIndexRoute: BlogIndexRoute,

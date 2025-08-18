@@ -4,11 +4,11 @@ import { Button } from "@/components/ui/button";
 import { TableOfContents } from "@/components/table-of-contents";
 import { ArrowLeft, CalendarDays, Clock, Copy, Check } from "lucide-react";
 import { Link } from "@tanstack/react-router";
-import { getBlogPost } from "@/lib/blog";
+import { getBlogPost, type BlogPost } from "@/lib/blog";
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import '../../code-highlight.css';
 
 export const Route = createFileRoute("/blog/$postId")({
@@ -73,7 +73,37 @@ function CodeBlock({ children, className, ...props }: any) {
 function BlogPostComponent() {
   const params = Route.useParams();
   const postId = params.postId;
-  const post = getBlogPost(postId);
+  const [post, setPost] = useState<BlogPost | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadPost = async () => {
+      try {
+        const blogPost = await getBlogPost(postId);
+        setPost(blogPost || null);
+      } catch (error) {
+        console.error('Error loading blog post:', error);
+        setPost(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadPost();
+  }, [postId]);
+
+  if (loading) {
+    return (
+      <div className="container mx-auto max-w-4xl px-4 py-8">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold mb-4">Loading...</h1>
+          <p className="text-muted-foreground mb-8">
+            Loading blog post...
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   if (!post) {
     return (

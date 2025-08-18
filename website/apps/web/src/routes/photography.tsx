@@ -13,6 +13,51 @@ import {
 import { Calendar, Camera, MapPin, Palette, Image as ImageIcon, X, ChevronLeft, ChevronRight } from "lucide-react";
 
 export const Route = createFileRoute("/photography")({
+  head: () => ({
+    meta: [
+      {
+        title: "Photography | Matt Gale - Software Developer & Photographer",
+      },
+      {
+        name: "description",
+        content: "Explore Matt Gale's photography portfolio featuring landscapes, street photography, and artistic captures. View photos organized by date, camera type, location, and style.",
+      },
+      {
+        name: "keywords",
+        content: "Matt Gale photography, portfolio, landscape photography, street photography, black and white, color photography, camera, photography gallery",
+      },
+      {
+        property: "og:type",
+        content: "website",
+      },
+      {
+        property: "og:title",
+        content: "Photography | Matt Gale - Software Developer & Photographer",
+      },
+      {
+        property: "og:description",
+        content: "Explore Matt Gale's photography portfolio featuring landscapes, street photography, and artistic captures. View photos organized by date, camera type, location, and style.",
+      },
+      {
+        property: "og:url",
+        content: "https://mattgale.com/photography",
+      },
+      {
+        property: "og:image",
+        content: "https://mattgale.com/photography-preview.jpg",
+      },
+      {
+        property: "twitter:card",
+        content: "summary_large_image",
+      },
+    ],
+    links: [
+      {
+        rel: "canonical",
+        href: "https://mattgale.com/photography",
+      },
+    ],
+  }),
   component: PhotographyComponent,
 });
 

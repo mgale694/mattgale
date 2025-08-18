@@ -6,6 +6,47 @@ import { getAllBlogPosts, getFeaturedBlogPosts, groupPostsByDate, type BlogPost 
 import { useState, useEffect } from "react";
 
 export const Route = createFileRoute("/blog/")({
+  head: () => ({
+    meta: [
+      {
+        title: "Blog | Matt Gale - Software Developer & Photographer",
+      },
+      {
+        name: "description",
+        content: "Read Matt Gale's blog about software development, web technologies, photography, and tech insights. Discover tutorials, thoughts, and experiences from a passionate developer.",
+      },
+      {
+        name: "keywords",
+        content: "Matt Gale blog, software development, web development, programming, React, TypeScript, photography, tech blog",
+      },
+      {
+        property: "og:type",
+        content: "website",
+      },
+      {
+        property: "og:title",
+        content: "Blog | Matt Gale - Software Developer & Photographer",
+      },
+      {
+        property: "og:description",
+        content: "Read Matt Gale's blog about software development, web technologies, photography, and tech insights. Discover tutorials, thoughts, and experiences from a passionate developer.",
+      },
+      {
+        property: "og:url",
+        content: "https://mattgale.com/blog",
+      },
+      {
+        property: "twitter:card",
+        content: "summary",
+      },
+    ],
+    links: [
+      {
+        rel: "canonical",
+        href: "https://mattgale.com/blog",
+      },
+    ],
+  }),
   component: BlogComponent,
 });
 

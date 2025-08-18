@@ -12,6 +12,96 @@ import { useState, useEffect } from 'react';
 import '../../code-highlight.css';
 
 export const Route = createFileRoute("/blog/$postId")({
+  loader: async ({ params }) => {
+    const post = await getBlogPost(params.postId);
+    if (!post) {
+      throw new Error('Post not found');
+    }
+    return { post };
+  },
+  head: (ctx) => {
+    const post = ctx.loaderData?.post;
+    if (!post) return {};
+    
+    const excerpt = post.content
+      .slice(0, 160)
+      .replace(/[#*`\n]/g, ' ')
+      .trim();
+    
+    return {
+      meta: [
+        {
+          title: `${post.title} | Matt Gale`,
+        },
+        {
+          name: "description",
+          content: post.excerpt || excerpt,
+        },
+        {
+          name: "keywords",
+          content: `${post.tags?.join(', ')}, Matt Gale, blog, software development`,
+        },
+        {
+          name: "author",
+          content: "Matt Gale",
+        },
+        {
+          property: "og:type",
+          content: "article",
+        },
+        {
+          property: "og:title",
+          content: post.title,
+        },
+        {
+          property: "og:description",
+          content: post.excerpt || excerpt,
+        },
+        {
+          property: "og:url",
+          content: `https://mattgale.com/blog/${post.id}`,
+        },
+        {
+          property: "og:image",
+          content: "https://mattgale.com/og-image.jpg",
+        },
+        {
+          property: "article:published_time",
+          content: post.date,
+        },
+        {
+          property: "article:author",
+          content: "Matt Gale",
+        },
+        {
+          property: "article:tag",
+          content: post.tags?.join(', ') || '',
+        },
+        {
+          property: "twitter:card",
+          content: "summary_large_image",
+        },
+        {
+          property: "twitter:title",
+          content: post.title,
+        },
+        {
+          property: "twitter:description",
+          content: post.excerpt || excerpt,
+        },
+        {
+          property: "twitter:image",
+          content: "https://mattgale.com/og-image.jpg",
+        },
+      ],
+      links: [
+        {
+          rel: "canonical",
+          href: `https://mattgale.com/blog/${post.id}`,
+        },
+      ],
+    };
+  },
   component: BlogPostComponent,
 });
 
@@ -71,39 +161,7 @@ function CodeBlock({ children, className, ...props }: any) {
 }
 
 function BlogPostComponent() {
-  const params = Route.useParams();
-  const postId = params.postId;
-  const [post, setPost] = useState<BlogPost | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const loadPost = async () => {
-      try {
-        const blogPost = await getBlogPost(postId);
-        setPost(blogPost || null);
-      } catch (error) {
-        console.error('Error loading blog post:', error);
-        setPost(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadPost();
-  }, [postId]);
-
-  if (loading) {
-    return (
-      <div className="container mx-auto max-w-4xl px-4 py-8">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4">Loading...</h1>
-          <p className="text-muted-foreground mb-8">
-            Loading blog post...
-          </p>
-        </div>
-      </div>
-    );
-  }
+  const { post } = Route.useLoaderData();
 
   if (!post) {
     return (

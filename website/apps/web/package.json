@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite --port=3001",
-    "build": "vite build",
+    "build": "vite build && npm run generate-sitemap",
+    "generate-sitemap": "node -p \"require('./src/lib/sitemap-generator.ts').generateSitemap()\"",
+    "seo-check": "node -p \"require('./src/lib/seo-check.ts').printSEOReport()\"",
     "serve": "vite preview",
     "start": "vite",
     "check-types": "tsc --noEmit"

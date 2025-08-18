@@ -19,17 +19,69 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
   head: () => ({
     meta: [
       {
-        title: "Matt Gale - Software Developer",
+        title: "Matt Gale - Software Developer & Photographer",
       },
       {
         name: "description",
-        content: "Personal website and blog of Matt Gale, a passionate software developer specializing in modern web technologies, React, TypeScript, and full-stack development.",
+        content: "Personal website and blog of Matt Gale - Software Developer, photographer, and technology enthusiast. Explore my projects, photography, and thoughts on software development.",
+      },
+      {
+        name: "keywords",
+        content: "Matt Gale, software developer, photographer, web development, blog, portfolio, React, TypeScript, photography",
+      },
+      {
+        name: "author",
+        content: "Matt Gale",
+      },
+      {
+        name: "robots",
+        content: "index, follow",
+      },
+      {
+        property: "og:type",
+        content: "website",
+      },
+      {
+        property: "og:url",
+        content: "https://mattgale.com/",
+      },
+      {
+        property: "og:title",
+        content: "Matt Gale - Software Developer & Photographer",
+      },
+      {
+        property: "og:description",
+        content: "Personal website and blog of Matt Gale - Software Developer, photographer, and technology enthusiast. Explore my projects, photography, and thoughts on software development.",
+      },
+      {
+        property: "og:image",
+        content: "https://mattgale.com/og-image.jpg",
+      },
+      {
+        property: "twitter:card",
+        content: "summary_large_image",
+      },
+      {
+        property: "twitter:title",
+        content: "Matt Gale - Software Developer & Photographer",
+      },
+      {
+        property: "twitter:description",
+        content: "Personal website and blog of Matt Gale - Software Developer, photographer, and technology enthusiast. Explore my projects, photography, and thoughts on software development.",
+      },
+      {
+        property: "twitter:image",
+        content: "https://mattgale.com/og-image.jpg",
       },
     ],
     links: [
       {
         rel: "icon",
         href: "/favicon.ico",
+      },
+      {
+        rel: "canonical",
+        href: "https://mattgale.com/",
       },
     ],
   }),

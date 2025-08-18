@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ShowcaseRouteImport } from './routes/showcase'
+import { Route as PhotographyNewRouteImport } from './routes/photography-new'
 import { Route as PhotographyRouteImport } from './routes/photography'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
@@ -19,6 +20,11 @@ import { Route as BlogPostIdRouteImport } from './routes/blog/$postId'
 const ShowcaseRoute = ShowcaseRouteImport.update({
   id: '/showcase',
   path: '/showcase',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PhotographyNewRoute = PhotographyNewRouteImport.update({
+  id: '/photography-new',
+  path: '/photography-new',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PhotographyRoute = PhotographyRouteImport.update({
@@ -51,6 +57,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/photography': typeof PhotographyRoute
+  '/photography-new': typeof PhotographyNewRoute
   '/showcase': typeof ShowcaseRoute
   '/blog/$postId': typeof BlogPostIdRoute
   '/blog': typeof BlogIndexRoute
@@ -59,6 +66,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/photography': typeof PhotographyRoute
+  '/photography-new': typeof PhotographyNewRoute
   '/showcase': typeof ShowcaseRoute
   '/blog/$postId': typeof BlogPostIdRoute
   '/blog': typeof BlogIndexRoute
@@ -68,6 +76,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/photography': typeof PhotographyRoute
+  '/photography-new': typeof PhotographyNewRoute
   '/showcase': typeof ShowcaseRoute
   '/blog/$postId': typeof BlogPostIdRoute
   '/blog/': typeof BlogIndexRoute
@@ -78,16 +87,25 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/photography'
+    | '/photography-new'
     | '/showcase'
     | '/blog/$postId'
     | '/blog'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/photography' | '/showcase' | '/blog/$postId' | '/blog'
+  to:
+    | '/'
+    | '/about'
+    | '/photography'
+    | '/photography-new'
+    | '/showcase'
+    | '/blog/$postId'
+    | '/blog'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/photography'
+    | '/photography-new'
     | '/showcase'
     | '/blog/$postId'
     | '/blog/'
@@ -97,6 +115,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   PhotographyRoute: typeof PhotographyRoute
+  PhotographyNewRoute: typeof PhotographyNewRoute
   ShowcaseRoute: typeof ShowcaseRoute
   BlogPostIdRoute: typeof BlogPostIdRoute
   BlogIndexRoute: typeof BlogIndexRoute
@@ -109,6 +128,13 @@ declare module '@tanstack/react-router' {
       path: '/showcase'
       fullPath: '/showcase'
       preLoaderRoute: typeof ShowcaseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/photography-new': {
+      id: '/photography-new'
+      path: '/photography-new'
+      fullPath: '/photography-new'
+      preLoaderRoute: typeof PhotographyNewRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/photography': {
@@ -153,6 +179,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   PhotographyRoute: PhotographyRoute,
+  PhotographyNewRoute: PhotographyNewRoute,
   ShowcaseRoute: ShowcaseRoute,
   BlogPostIdRoute: BlogPostIdRoute,
   BlogIndexRoute: BlogIndexRoute,

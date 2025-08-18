@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- Home Page -->
   <url>
-    <loc>https://mattgale.com/</loc>
+    <loc>https://matthewgale.co.uk/</loc>
     <lastmod>2025-08-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -10,7 +10,7 @@
   
   <!-- Blog Index -->
   <url>
-    <loc>https://mattgale.com/blog</loc>
+    <loc>https://matthewgale.co.uk/blog</loc>
     <lastmod>2025-08-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -18,7 +18,7 @@
   
   <!-- Photography Page -->
   <url>
-    <loc>https://mattgale.com/photography</loc>
+    <loc>https://matthewgale.co.uk/photography</loc>
     <lastmod>2025-08-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -26,7 +26,7 @@
   
   <!-- About Page (if exists) -->
   <url>
-    <loc>https://mattgale.com/about</loc>
+    <loc>https://matthewgale.co.uk/about</loc>
     <lastmod>2025-08-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -36,7 +36,7 @@
   <!-- Example blog post entries: -->
   <!-- 
   <url>
-    <loc>https://mattgale.com/blog/2025-01-15_example-post</loc>
+    <loc>https://matthewgale.co.uk/blog/2025-01-15_example-post</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>never</changefreq>
     <priority>0.5</priority>

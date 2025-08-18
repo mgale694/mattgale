@@ -47,7 +47,7 @@ jobs:
           DO_NOT_TRACK: 1
           TURBO_TELEMETRY_DISABLED: 1
           # For user pages (mgale694.github.io), use '/'
-          # For project pages (mgale694.github.io/mattgale.com), use '/mattgale.com/'
+          # For project pages (mgale694.github.io/matthewgale.co.uk), use '/matthewgale.co.uk/'
           VITE_BASE_PATH: "/"
 
       - name: Setup Pages

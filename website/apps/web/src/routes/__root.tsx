@@ -43,7 +43,7 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
       },
       {
         property: "og:url",
-        content: "https://mattgale.com/",
+        content: "https://matthewgale.co.uk/",
       },
       {
         property: "og:title",
@@ -55,7 +55,7 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
       },
       {
         property: "og:image",
-        content: "https://mattgale.com/og-image.jpg",
+        content: "https://matthewgale.co.uk/og-image.jpg",
       },
       {
         property: "twitter:card",
@@ -71,7 +71,7 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
       },
       {
         property: "twitter:image",
-        content: "https://mattgale.com/og-image.jpg",
+        content: "https://matthewgale.co.uk/og-image.jpg",
       },
     ],
     links: [
@@ -81,7 +81,7 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
       },
       {
         rel: "canonical",
-        href: "https://mattgale.com/",
+        href: "https://matthewgale.co.uk/",
       },
     ],
   }),
@@ -92,20 +92,27 @@ function RootComponent() {
     select: (s) => s.isLoading,
   });
 
-
   return (
     <>
       <HeadContent />
       <ThemeProvider
         attribute="class"
         defaultTheme="dark"
-        disableTransitionOnChange
+        enableSystem
+        disableTransitionOnChange={false}
         storageKey="vite-ui-theme"
       >
-        <div className="grid grid-rows-[auto_1fr_auto] min-h-screen">
+        <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-background text-foreground">
           <Header />
-          <main className="flex-1">
-            {isFetching ? <Loader /> : <Outlet />}
+          <main className="flex-1 relative">
+            {isFetching && (
+              <div className="absolute inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center">
+                <Loader />
+              </div>
+            )}
+            <div className={`transition-opacity duration-200 ${isFetching ? 'opacity-50' : 'opacity-100'}`}>
+              <Outlet />
+            </div>
           </main>
           <Footer />
         </div>

@@ -33,7 +33,7 @@ export const Route = createFileRoute("/blog/")({
       },
       {
         property: "og:url",
-        content: "https://mattgale.com/blog",
+        content: "https://matthewgale.co.uk/blog",
       },
       {
         property: "twitter:card",
@@ -43,7 +43,7 @@ export const Route = createFileRoute("/blog/")({
     links: [
       {
         rel: "canonical",
-        href: "https://mattgale.com/blog",
+        href: "https://matthewgale.co.uk/blog",
       },
     ],
   }),

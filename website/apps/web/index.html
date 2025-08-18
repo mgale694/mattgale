@@ -13,23 +13,23 @@
     <meta name="robots" content="index, follow" />
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="https://mattgale.com/" />
+    <link rel="canonical" href="https://matthewgale.co.uk/" />
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://mattgale.com/" />
+    <meta property="og:url" content="https://matthewgale.co.uk/" />
     <meta property="og:title" content="Matt Gale - Software Developer & Photographer" />
     <meta property="og:description" content="Personal website and blog of Matt Gale - Software Developer, photographer, and technology enthusiast. Explore my projects, photography, and thoughts on software development." />
-    <meta property="og:image" content="https://mattgale.com/og-image.jpg" />
+    <meta property="og:image" content="https://matthewgale.co.uk/og-image.jpg" />
     <meta property="og:site_name" content="Matt Gale" />
     <meta property="og:locale" content="en_US" />
     
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://mattgale.com/" />
+    <meta property="twitter:url" content="https://matthewgale.co.uk/" />
     <meta property="twitter:title" content="Matt Gale - Software Developer & Photographer" />
     <meta property="twitter:description" content="Personal website and blog of Matt Gale - Software Developer, photographer, and technology enthusiast. Explore my projects, photography, and thoughts on software development." />
-    <meta property="twitter:image" content="https://mattgale.com/og-image.jpg" />
+    <meta property="twitter:image" content="https://matthewgale.co.uk/og-image.jpg" />
     
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
@@ -48,7 +48,7 @@
       "@context": "https://schema.org",
       "@type": "Person",
       "name": "Matt Gale",
-      "url": "https://mattgale.com",
+      "url": "https://matthewgale.co.uk",
       "jobTitle": "Software Developer",
       "description": "Software Developer, photographer, and technology enthusiast",
       "sameAs": [
@@ -61,12 +61,23 @@
     <script>
       (function() {
         try {
-          const theme = localStorage.getItem('theme') || 
+          // Use the same storage key as the theme provider
+          const theme = localStorage.getItem('vite-ui-theme') || 
                        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
           if (theme === 'dark') {
             document.documentElement.classList.add('dark');
+            document.documentElement.style.colorScheme = 'dark';
+          } else {
+            document.documentElement.style.colorScheme = 'light';
           }
-        } catch (e) {}
+          // Set background immediately to prevent flash
+          document.documentElement.style.backgroundColor = theme === 'dark' ? '#0a0a0a' : '#ffffff';
+        } catch (e) {
+          // Fallback to dark theme if there's an error
+          document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = 'dark';
+          document.documentElement.style.backgroundColor = '#0a0a0a';
+        }
       })();
     </script>
     

@@ -40,11 +40,11 @@ export const Route = createFileRoute("/photography")({
       },
       {
         property: "og:url",
-        content: "https://mattgale.com/photography",
+        content: "https://matthewgale.co.uk/photography",
       },
       {
         property: "og:image",
-        content: "https://mattgale.com/photography-preview.jpg",
+        content: "https://matthewgale.co.uk/photography-preview.jpg",
       },
       {
         property: "twitter:card",
@@ -54,7 +54,7 @@ export const Route = createFileRoute("/photography")({
     links: [
       {
         rel: "canonical",
-        href: "https://mattgale.com/photography",
+        href: "https://matthewgale.co.uk/photography",
       },
     ],
   }),

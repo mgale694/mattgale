@@ -12,7 +12,7 @@ interface SitemapUrl {
 }
 
 async function generateSitemap() {
-  const baseUrl = 'https://mattgale.com';
+  const baseUrl = 'https://matthewgale.co.uk';
   const urls: SitemapUrl[] = [];
 
   // Static pages

@@ -1,4 +1,4 @@
-# [mattgale.com](https://mattgale.com)
+# [matthewgale.co.uk](https://matthewgale.co.uk)
 
 A modern, minimalist personal website built with React, TypeScript, and TanStack Router. Features a blog system powered by markdown files and showcases projects and professional experience.
 
@@ -82,8 +82,8 @@ website/
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/mgale694/mattgale.com.git
-   cd mattgale.com
+   git clone https://github.com/mgale694/matthewgale.co.uk.git
+   cd matthewgale.co.uk
    ```
 
 2. **Install dependencies**
@@ -228,8 +228,8 @@ This is a personal website, but if you notice any issues or have suggestions:
 
 ## 📞 Contact
 
-- **Website**: [mattgale.com](https://mattgale.com)
-- **Email**: hello@mattgale.com
+- **Website**: [matthewgale.co.uk](https://matthewgale.co.uk)
+- **Email**: hello@matthewgale.co.uk
 - **GitHub**: [@mgale694](https://github.com/mgale694)
 
 ---

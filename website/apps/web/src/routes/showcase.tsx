@@ -14,8 +14,8 @@ const projects = [
     title: "Personal Website",
     description: "A modern, minimalist personal website built with React, TypeScript, and TanStack Router. Features a blog system powered by markdown files.",
     technologies: ["React", "TypeScript", "TanStack Router", "Tailwind CSS", "Vite"],
-    githubUrl: "https://github.com/mgale694/mattgale.com",
-    liveUrl: "https://mattgale.com",
+    githubUrl: "https://github.com/mgale694/matthewgale.co.uk",
+    liveUrl: "https://matthewgale.co.uk",
     featured: true,
   },
   {
@@ -138,7 +138,7 @@ function ShowcaseComponent() {
             I'm always open to discussing new opportunities and interesting projects.
           </p>
           <Button asChild>
-            <a href="mailto:hello@mattgale.com">Get In Touch</a>
+            <a href="mailto:hello@matthewgale.co.uk">Get In Touch</a>
           </Button>
         </div>
       </section>

@@ -59,11 +59,11 @@ export const Route = createFileRoute("/blog/$postId")({
         },
         {
           property: "og:url",
-          content: `https://mattgale.com/blog/${post.id}`,
+          content: `https://matthewgale.co.uk/blog/${post.id}`,
         },
         {
           property: "og:image",
-          content: "https://mattgale.com/og-image.jpg",
+          content: "https://matthewgale.co.uk/og-image.jpg",
         },
         {
           property: "article:published_time",
@@ -91,13 +91,13 @@ export const Route = createFileRoute("/blog/$postId")({
         },
         {
           property: "twitter:image",
-          content: "https://mattgale.com/og-image.jpg",
+          content: "https://matthewgale.co.uk/og-image.jpg",
         },
       ],
       links: [
         {
           rel: "canonical",
-          href: `https://mattgale.com/blog/${post.id}`,
+          href: `https://matthewgale.co.uk/blog/${post.id}`,
         },
       ],
     };

@@ -131,7 +131,7 @@ function HomeComponent() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild>
-              <a href="mailto:hello@mattgale.com">Get In Touch</a>
+              <a href="mailto:hello@matthewgale.co.uk">Get In Touch</a>
             </Button>
             <Button variant="outline" asChild>
               <a href="https://github.com/mgale694" target="_blank" rel="noopener noreferrer">

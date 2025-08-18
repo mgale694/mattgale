@@ -26,12 +26,12 @@ This guide explains how to deploy your personal website to GitHub Pages.
 
 ### Option 2: Project GitHub Pages
 
-**Result**: `https://mgale694.github.io/mattgale.com/`
+**Result**: `https://mgale694.github.io/matthewgale.co.uk/`
 
 1. **Update Workflow**
 
    - Edit `.github/workflows/deploy.yml`
-   - Change `VITE_BASE_PATH: '/'` to `VITE_BASE_PATH: '/mattgale.com/'`
+   - Change `VITE_BASE_PATH: '/'` to `VITE_BASE_PATH: '/matthewgale.co.uk/'`
 
 2. **Enable Pages**
    - Go to Settings → Pages
@@ -94,4 +94,4 @@ Check the "Actions" tab in your GitHub repository to see deployment logs and tro
 Once deployed, your website will be available at:
 
 - **User Pages**: `https://mgale694.github.io/`
-- **Project Pages**: `https://mgale694.github.io/mattgale.com/`
+- **Project Pages**: `https://mgale694.github.io/matthewgale.co.uk/`

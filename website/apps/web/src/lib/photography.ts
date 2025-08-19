@@ -1,5 +1,6 @@
 // Photography utilities for reading photo files
-// This implementation dynamically reads from photo files in the content directory
+// This implementation dynamically reads from photo files in the nested folder structure:
+// photography/<camera>/<location>/<date>/<bw/colour>/001.png
 
 export interface PhotoMetadata {
   id: string;
@@ -31,28 +32,25 @@ export interface PhotoLocationGroup {
   photos: PhotoMetadata[];
 }
 
-// Extract metadata from filename format: YYYY-MM-DD_cameratype_location_bw.ext
-export function extractPhotoMetadata(fileName: string, url: string): PhotoMetadata {
-  // Remove file extension for parsing
-  const nameWithoutExt = fileName.replace(/\.[^/.]+$/, '');
+// Extract metadata from nested folder path: photography/<camera>/<location>/<date>/<bw/colour>/filename.ext
+export function extractPhotoMetadata(path: string, url: string): PhotoMetadata {
+  // Remove the base path and split into parts
+  const pathParts = path.replace('/src/content/photography/', '').split('/');
   
-  // Split by underscores
-  const parts = nameWithoutExt.split('_');
-  
-  if (parts.length >= 3) {
-    const date = parts[0] || new Date().toISOString().split('T')[0];
-    const cameraType = parts[1] || 'Unknown';
-    const locationPart = parts[2] || 'Unknown';
+  if (pathParts.length >= 5) {
+    const cameraType = pathParts[0];
+    const location = pathParts[1];
+    const date = pathParts[2];
+    const colorType = pathParts[3]; // 'bw' or 'colour'
+    const fileName = pathParts[4];
     
-    // Check if it's black and white (has 'bw' in the name)
-    const isBlackAndWhite = fileName.toLowerCase().includes('bw') || 
-                           parts.some(part => part.toLowerCase() === 'bw');
+    const isBlackAndWhite = colorType === 'bw';
     
-    // Clean up location (remove 'bw' if it's there)
-    const location = locationPart.replace(/[-_]?bw$/i, '') || 'Unknown';
+    // Create a unique ID from the full path
+    const id = path.replace('/src/content/photography/', '').replace(/\//g, '_');
     
     return {
-      id: fileName,
+      id,
       fileName,
       date,
       cameraType,
@@ -65,7 +63,8 @@ export function extractPhotoMetadata(fileName: string, url: string): PhotoMetada
     };
   }
   
-  // Fallback for files that don't match the expected format
+  // Fallback for files that don't match the expected structure
+  const fileName = path.split('/').pop() || '';
   return {
     id: fileName,
     fileName,
@@ -80,8 +79,8 @@ export function extractPhotoMetadata(fileName: string, url: string): PhotoMetada
   };
 }
 
-// Read all photo files using Vite's glob import
-const photoModules = import.meta.glob('/src/content/photography/*', { 
+// Read all photo files using Vite's glob import with recursive pattern
+const photoModules = import.meta.glob('/src/content/photography/**/*.{png,jpg,jpeg,webp}', { 
   import: 'default'
   // Removed eager: true to allow dynamic loading
 }) as Record<string, () => Promise<string>>;
@@ -99,8 +98,7 @@ async function loadPhotos(): Promise<PhotoMetadata[]> {
     const loadedPhotos = await Promise.all(
       Object.entries(photoModules).map(async ([path, loader]) => {
         const url = await loader();
-        const fileName = path.split('/').pop() || '';
-        return extractPhotoMetadata(fileName, url);
+        return extractPhotoMetadata(path, url);
       })
     );
 

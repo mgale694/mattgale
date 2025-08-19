@@ -57,50 +57,9 @@
     }
     </script>
     
-    <!-- Prevent white flash by detecting theme before page loads -->
-    <script>
-      (function() {
-        try {
-          // Use the same storage key as the theme provider
-          const theme = localStorage.getItem('vite-ui-theme') || 
-                       (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-          if (theme === 'dark') {
-            document.documentElement.classList.add('dark');
-            document.documentElement.style.colorScheme = 'dark';
-          } else {
-            document.documentElement.style.colorScheme = 'light';
-          }
-          // Set background immediately to prevent flash
-          document.documentElement.style.backgroundColor = theme === 'dark' ? '#0a0a0a' : '#ffffff';
-        } catch (e) {
-          // Fallback to dark theme if there's an error
-          document.documentElement.classList.add('dark');
-          document.documentElement.style.colorScheme = 'dark';
-          document.documentElement.style.backgroundColor = '#0a0a0a';
-        }
-      })();
-    </script>
-    
     <!-- Preload critical resources -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link rel="dns-prefetch" href="https://fonts.bunny.net">
-    
-    <!-- GitHub Pages SPA redirect script -->
-    <script>
-      // Single Page Apps for GitHub Pages
-      // https://github.com/rafgraph/spa-github-pages
-      (function(l) {
-        if (l.search[1] === '/' ) {
-          var decoded = l.search.slice(1).split('&').map(function(s) { 
-            return s.replace(/~and~/g, '&')
-          }).join('?');
-          window.history.replaceState(null, null,
-              l.pathname.slice(0, -1) + decoded + l.hash
-          );
-        }
-      }(window.location))
-    </script>
-  </head>
 
   <body>
     <div id="app"></div>

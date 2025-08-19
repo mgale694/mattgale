@@ -4,6 +4,7 @@ Allow: /
 # Sitemap
 Sitemap: https://matthewgale.co.uk/sitemap.xml
 
+# Professional website - software development portfolio
 # Allow all search engines to crawl the entire site
 # Disallow any admin or sensitive areas (add as needed)
 # Disallow: /admin/

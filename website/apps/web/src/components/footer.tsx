@@ -1,4 +1,5 @@
 import { Github, Linkedin, Mail, Heart } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -19,18 +20,18 @@ export default function Footer() {
           <div className="space-y-4">
             <h4 className="text-sm font-semibold uppercase tracking-wider">Quick Links</h4>
             <nav className="flex flex-col space-y-2">
-              <a href="/" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+              <Link to="/" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                 Home
-              </a>
-              <a href="/about" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+              </Link>
+              <Link to="/about" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                 About
-              </a>
-              <a href="/showcase" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+              </Link>
+              <Link to="/showcase" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                 Showcase
-              </a>
-              <a href="/blog" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+              </Link>
+              <Link to="/blog" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                 Blog
-              </a>
+              </Link>
             </nav>
           </div>
 

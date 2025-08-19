@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CalendarDays, Clock } from "lucide-react";
@@ -57,12 +57,13 @@ function BlogPostCard({ post }: { post: BlogPost }) {
         <div className="flex items-start justify-between">
           <div className="flex-1">
             <CardTitle className="text-xl leading-tight">
-              <a 
-                href={`/blog/${post.id}`}
+              <Link 
+                to="/blog/$postId" 
+                params={{ postId: post.id }}
                 className="hover:text-primary transition-colors"
               >
                 {post.title}
-              </a>
+              </Link>
             </CardTitle>
             {post.featured && (
               <Badge className="mt-2">Featured</Badge>

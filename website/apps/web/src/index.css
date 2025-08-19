@@ -181,3 +181,14 @@ body {
     }
   }
 }
+
+/* Hide scrollbars while maintaining scroll functionality */
+.scrollbar-hide {
+  /* For Webkit browsers */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

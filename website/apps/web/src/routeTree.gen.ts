@@ -10,26 +10,16 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ShowcaseRouteImport } from './routes/showcase'
-import { Route as PhotographyNewRouteImport } from './routes/photography-new'
-import { Route as PhotographyRouteImport } from './routes/photography'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PhotographyIndexRouteImport } from './routes/photography/index'
 import { Route as BlogIndexRouteImport } from './routes/blog/index'
+import { Route as PhotographySectionIdRouteImport } from './routes/photography/$sectionId'
 import { Route as BlogPostIdRouteImport } from './routes/blog/$postId'
 
 const ShowcaseRoute = ShowcaseRouteImport.update({
   id: '/showcase',
   path: '/showcase',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PhotographyNewRoute = PhotographyNewRouteImport.update({
-  id: '/photography-new',
-  path: '/photography-new',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PhotographyRoute = PhotographyRouteImport.update({
-  id: '/photography',
-  path: '/photography',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -42,9 +32,19 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PhotographyIndexRoute = PhotographyIndexRouteImport.update({
+  id: '/photography/',
+  path: '/photography/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BlogIndexRoute = BlogIndexRouteImport.update({
   id: '/blog/',
   path: '/blog/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PhotographySectionIdRoute = PhotographySectionIdRouteImport.update({
+  id: '/photography/$sectionId',
+  path: '/photography/$sectionId',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BlogPostIdRoute = BlogPostIdRouteImport.update({
@@ -56,69 +56,69 @@ const BlogPostIdRoute = BlogPostIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/photography': typeof PhotographyRoute
-  '/photography-new': typeof PhotographyNewRoute
   '/showcase': typeof ShowcaseRoute
   '/blog/$postId': typeof BlogPostIdRoute
+  '/photography/$sectionId': typeof PhotographySectionIdRoute
   '/blog': typeof BlogIndexRoute
+  '/photography': typeof PhotographyIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/photography': typeof PhotographyRoute
-  '/photography-new': typeof PhotographyNewRoute
   '/showcase': typeof ShowcaseRoute
   '/blog/$postId': typeof BlogPostIdRoute
+  '/photography/$sectionId': typeof PhotographySectionIdRoute
   '/blog': typeof BlogIndexRoute
+  '/photography': typeof PhotographyIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/photography': typeof PhotographyRoute
-  '/photography-new': typeof PhotographyNewRoute
   '/showcase': typeof ShowcaseRoute
   '/blog/$postId': typeof BlogPostIdRoute
+  '/photography/$sectionId': typeof PhotographySectionIdRoute
   '/blog/': typeof BlogIndexRoute
+  '/photography/': typeof PhotographyIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/about'
-    | '/photography'
-    | '/photography-new'
     | '/showcase'
     | '/blog/$postId'
+    | '/photography/$sectionId'
     | '/blog'
+    | '/photography'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
-    | '/photography'
-    | '/photography-new'
     | '/showcase'
     | '/blog/$postId'
+    | '/photography/$sectionId'
     | '/blog'
+    | '/photography'
   id:
     | '__root__'
     | '/'
     | '/about'
-    | '/photography'
-    | '/photography-new'
     | '/showcase'
     | '/blog/$postId'
+    | '/photography/$sectionId'
     | '/blog/'
+    | '/photography/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  PhotographyRoute: typeof PhotographyRoute
-  PhotographyNewRoute: typeof PhotographyNewRoute
   ShowcaseRoute: typeof ShowcaseRoute
   BlogPostIdRoute: typeof BlogPostIdRoute
+  PhotographySectionIdRoute: typeof PhotographySectionIdRoute
   BlogIndexRoute: typeof BlogIndexRoute
+  PhotographyIndexRoute: typeof PhotographyIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -128,20 +128,6 @@ declare module '@tanstack/react-router' {
       path: '/showcase'
       fullPath: '/showcase'
       preLoaderRoute: typeof ShowcaseRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/photography-new': {
-      id: '/photography-new'
-      path: '/photography-new'
-      fullPath: '/photography-new'
-      preLoaderRoute: typeof PhotographyNewRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/photography': {
-      id: '/photography'
-      path: '/photography'
-      fullPath: '/photography'
-      preLoaderRoute: typeof PhotographyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -158,11 +144,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/photography/': {
+      id: '/photography/'
+      path: '/photography'
+      fullPath: '/photography'
+      preLoaderRoute: typeof PhotographyIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/blog/': {
       id: '/blog/'
       path: '/blog'
       fullPath: '/blog'
       preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/photography/$sectionId': {
+      id: '/photography/$sectionId'
+      path: '/photography/$sectionId'
+      fullPath: '/photography/$sectionId'
+      preLoaderRoute: typeof PhotographySectionIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/blog/$postId': {
@@ -178,11 +178,11 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  PhotographyRoute: PhotographyRoute,
-  PhotographyNewRoute: PhotographyNewRoute,
   ShowcaseRoute: ShowcaseRoute,
   BlogPostIdRoute: BlogPostIdRoute,
+  PhotographySectionIdRoute: PhotographySectionIdRoute,
   BlogIndexRoute: BlogIndexRoute,
+  PhotographyIndexRoute: PhotographyIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

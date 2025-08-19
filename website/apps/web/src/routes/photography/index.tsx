@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { 
   getAllPhotos, 
   groupPhotosByDate, 
@@ -10,16 +11,64 @@ import {
   filterPhotosByBW,
   type PhotoMetadata 
 } from "@/lib/photography";
-import { Calendar, Camera, MapPin, Palette, Image as ImageIcon, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { Calendar, Camera, MapPin, Palette, Image as ImageIcon, X, ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/photography-new")({
+export const Route = createFileRoute("/photography/")({
+  head: () => ({
+    meta: [
+      {
+        title: "Photography | Matt Gale - Software Developer & Photographer",
+      },
+      {
+        name: "description",
+        content: "Explore Matt Gale's photography portfolio featuring landscapes, street photography, and artistic captures. View photos organized by date, camera type, location, and style.",
+      },
+      {
+        name: "keywords",
+        content: "Matt Gale photography, portfolio, landscape photography, street photography, black and white, color photography, camera, photography gallery",
+      },
+      {
+        property: "og:type",
+        content: "website",
+      },
+      {
+        property: "og:title",
+        content: "Photography | Matt Gale - Software Developer & Photographer",
+      },
+      {
+        property: "og:description",
+        content: "Explore Matt Gale's photography portfolio featuring landscapes, street photography, and artistic captures. View photos organized by date, camera type, location, and style.",
+      },
+      {
+        property: "og:url",
+        content: "https://matthewgale.co.uk/photography",
+      },
+      {
+        property: "og:image",
+        content: "https://matthewgale.co.uk/photography-preview.jpg",
+      },
+      {
+        property: "twitter:card",
+        content: "summary_large_image",
+      },
+    ],
+    links: [
+      {
+        rel: "canonical",
+        href: "https://matthewgale.co.uk/photography",
+      },
+    ],
+  }),
   component: PhotographyComponent,
 });
 
-type ViewMode = 'date' | 'camera' | 'location' | 'bw' | 'color';
+type ViewMode = 'date' | 'camera' | 'location';
+type ColorFilter = 'all' | 'bw' | 'color';
 
 function PhotographyComponent() {
   const [viewMode, setViewMode] = useState<ViewMode>('date');
+  const [colorFilter, setColorFilter] = useState<ColorFilter>('all');
   const [allPhotos, setAllPhotos] = useState<PhotoMetadata[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedPhoto, setSelectedPhoto] = useState<PhotoMetadata | null>(null);
@@ -29,6 +78,16 @@ function PhotographyComponent() {
       try {
         const photos = await getAllPhotos();
         setAllPhotos(photos);
+        
+        // Preload the first 3 images for better initial performance
+        const preloadImages = photos.slice(0, 3);
+        preloadImages.forEach(photo => {
+          const link = document.createElement('link');
+          link.rel = 'preload';
+          link.as = 'image';
+          link.href = photo.url;
+          document.head.appendChild(link);
+        });
       } catch (error) {
         console.error('Error loading photos:', error);
       } finally {
@@ -38,6 +97,30 @@ function PhotographyComponent() {
 
     loadPhotos();
   }, []);
+
+  // Apply color filter to photos
+  const getFilteredPhotos = (photos: PhotoMetadata[]): PhotoMetadata[] => {
+    switch (colorFilter) {
+      case 'bw':
+        return filterPhotosByBW(photos, true);
+      case 'color':
+        return filterPhotosByBW(photos, false);
+      case 'all':
+      default:
+        return photos;
+    }
+  };
+
+  // Handle color filter clicks with toggle behavior
+  const handleColorFilterClick = (filter: ColorFilter) => {
+    if (colorFilter === filter) {
+      // If clicking the same filter, reset to 'all'
+      setColorFilter('all');
+    } else {
+      // Otherwise, set the new filter
+      setColorFilter(filter);
+    }
+  };
 
   const renderPhotos = () => {
     if (loading) {
@@ -56,16 +139,36 @@ function PhotographyComponent() {
       );
     }
 
+    const filteredPhotos = getFilteredPhotos(allPhotos);
+
+    if (filteredPhotos.length === 0) {
+      return (
+        <div className="text-center py-12">
+          <p className="text-muted-foreground">No photos found with the current filters.</p>
+        </div>
+      );
+    }
+
     switch (viewMode) {
       case 'date':
-        const dateGroups = groupPhotosByDate(allPhotos);
+        const dateGroups = groupPhotosByDate(filteredPhotos);
         return (
           <div className="space-y-12">
             {dateGroups.map((group) => (
               <div key={`${group.year}-${group.month}`} className="space-y-6">
-                <h2 className="text-2xl font-bold text-primary">
-                  {group.monthName} {group.year}
-                </h2>
+                <Link 
+                  to="/photography/$sectionId" 
+                  params={{ sectionId: `date-${group.year}-${group.month}` }}
+                  className="group block"
+                >
+                  <h2 className="text-2xl font-bold text-primary group-hover:text-primary/80 transition-colors flex items-center gap-3">
+                    {group.monthName} {group.year}
+                    <Badge variant="secondary" className="ml-0">
+                      {group.photos.length} photo{group.photos.length !== 1 ? 's' : ''}
+                    </Badge>
+                    <ExternalLink className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </h2>
+                </Link>
                 <PhotoGrid photos={group.photos} onPhotoClick={setSelectedPhoto} />
               </div>
             ))}
@@ -73,14 +176,24 @@ function PhotographyComponent() {
         );
 
       case 'camera':
-        const cameraGroups = groupPhotosByCamera(allPhotos);
+        const cameraGroups = groupPhotosByCamera(filteredPhotos);
         return (
           <div className="space-y-12">
             {cameraGroups.map((group) => (
               <div key={group.cameraType} className="space-y-6">
-                <h2 className="text-2xl font-bold text-primary">
-                  {group.cameraType}
-                </h2>
+                <Link 
+                  to="/photography/$sectionId" 
+                  params={{ sectionId: `camera-${group.cameraType}` }}
+                  className="group block"
+                >
+                  <h2 className="text-2xl font-bold text-primary group-hover:text-primary/80 transition-colors flex items-center gap-3">
+                    {group.cameraType}
+                    <Badge variant="secondary" className="ml-0">
+                      {group.photos.length} photo{group.photos.length !== 1 ? 's' : ''}
+                    </Badge>
+                    <ExternalLink className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </h2>
+                </Link>
                 <PhotoGrid photos={group.photos} onPhotoClick={setSelectedPhoto} />
               </div>
             ))}
@@ -88,44 +201,32 @@ function PhotographyComponent() {
         );
 
       case 'location':
-        const locationGroups = groupPhotosByLocation(allPhotos);
+        const locationGroups = groupPhotosByLocation(filteredPhotos);
         return (
           <div className="space-y-12">
             {locationGroups.map((group) => (
               <div key={group.location} className="space-y-6">
-                <h2 className="text-2xl font-bold text-primary">
-                  {group.location}
-                </h2>
+                <Link 
+                  to="/photography/$sectionId" 
+                  params={{ sectionId: `location-${group.location}` }}
+                  className="group block"
+                >
+                  <h2 className="text-2xl font-bold text-primary group-hover:text-primary/80 transition-colors flex items-center gap-3">
+                    {group.location}
+                    <Badge variant="secondary" className="ml-0">
+                      {group.photos.length} photo{group.photos.length !== 1 ? 's' : ''}
+                    </Badge>
+                    <ExternalLink className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </h2>
+                </Link>
                 <PhotoGrid photos={group.photos} onPhotoClick={setSelectedPhoto} />
               </div>
             ))}
           </div>
         );
 
-      case 'bw':
-        const bwPhotos = filterPhotosByBW(allPhotos, true);
-        return (
-          <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-primary">
-              Black & White Photography
-            </h2>
-            <PhotoGrid photos={bwPhotos} onPhotoClick={setSelectedPhoto} />
-          </div>
-        );
-
-      case 'color':
-        const colorPhotos = filterPhotosByBW(allPhotos, false);
-        return (
-          <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-primary">
-              Color Photography
-            </h2>
-            <PhotoGrid photos={colorPhotos} onPhotoClick={setSelectedPhoto} />
-          </div>
-        );
-
       default:
-        return <PhotoGrid photos={allPhotos} onPhotoClick={setSelectedPhoto} />;
+        return <PhotoGrid photos={filteredPhotos} onPhotoClick={setSelectedPhoto} />;
     }
   };
 
@@ -154,48 +255,66 @@ function PhotographyComponent() {
         </p>
       </div>
 
-      {/* Filter Buttons */}
-      <div className="flex flex-wrap justify-center gap-3 mb-12">
-        <Button
-          variant={viewMode === 'date' ? 'default' : 'outline'}
-          onClick={() => setViewMode('date')}
-          className="flex items-center gap-2"
-        >
-          <Calendar className="w-4 h-4" />
-          By Date
-        </Button>
-        <Button
-          variant={viewMode === 'camera' ? 'default' : 'outline'}
-          onClick={() => setViewMode('camera')}
-          className="flex items-center gap-2"
-        >
-          <Camera className="w-4 h-4" />
-          By Camera
-        </Button>
-        <Button
-          variant={viewMode === 'location' ? 'default' : 'outline'}
-          onClick={() => setViewMode('location')}
-          className="flex items-center gap-2"
-        >
-          <MapPin className="w-4 h-4" />
-          By Location
-        </Button>
-        <Button
-          variant={viewMode === 'bw' ? 'default' : 'outline'}
-          onClick={() => setViewMode('bw')}
-          className="flex items-center gap-2"
-        >
-          <Palette className="w-4 h-4" />
-          Black & White
-        </Button>
-        <Button
-          variant={viewMode === 'color' ? 'default' : 'outline'}
-          onClick={() => setViewMode('color')}
-          className="flex items-center gap-2"
-        >
-          <ImageIcon className="w-4 h-4" />
-          Color
-        </Button>
+      {/* Filter Controls */}
+      <div className="mb-12">
+        <div className="flex flex-wrap justify-center items-center gap-3">
+          {/* Organization Filters */}
+          <Button
+            variant={viewMode === 'date' ? 'default' : 'outline'}
+            onClick={() => setViewMode('date')}
+            className="flex items-center gap-2"
+          >
+            <Calendar className="w-4 h-4" />
+            Date
+          </Button>
+          <Button
+            variant={viewMode === 'camera' ? 'default' : 'outline'}
+            onClick={() => setViewMode('camera')}
+            className="flex items-center gap-2"
+          >
+            <Camera className="w-4 h-4" />
+            Camera
+          </Button>
+          <Button
+            variant={viewMode === 'location' ? 'default' : 'outline'}
+            onClick={() => setViewMode('location')}
+            className="flex items-center gap-2"
+          >
+            <MapPin className="w-4 h-4" />
+            Location
+          </Button>
+
+          {/* Separator */}
+          <div className="h-8 w-px bg-border mx-2"></div>
+
+          {/* Color Style Filters */}
+          <Button
+            variant={colorFilter === 'bw' ? 'default' : 'outline'}
+            onClick={() => handleColorFilterClick('bw')}
+            className="flex items-center gap-2"
+          >
+            <Palette className="w-4 h-4" />
+            Black & White
+          </Button>
+          <Button
+            variant={colorFilter === 'color' ? 'default' : 'outline'}
+            onClick={() => handleColorFilterClick('color')}
+            className="flex items-center gap-2"
+          >
+            <ImageIcon className="w-4 h-4" />
+            Color
+          </Button>
+        </div>
+
+        {/* Filter Summary */}
+        <div className="text-center mt-6">
+          <p className="text-sm text-muted-foreground">
+            Showing {getFilteredPhotos(allPhotos).length} of {allPhotos.length} photos
+            {colorFilter !== 'all' && (
+              <span> • {colorFilter === 'bw' ? 'Black & White' : 'Color'} only</span>
+            )}
+          </p>
+        </div>
       </div>
 
       {/* Photo Content */}
@@ -243,6 +362,30 @@ function PhotographyComponent() {
 }
 
 function PhotoGrid({ photos, onPhotoClick }: { photos: PhotoMetadata[]; onPhotoClick: (photo: PhotoMetadata) => void }) {
+  // If we have more than 6 photos, show them in a horizontal scroll
+  const useHorizontalScroll = photos.length > 3;
+  
+  if (useHorizontalScroll) {
+    return (
+      <div className="relative">
+        {/* Horizontal scrollable container */}
+        <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
+          <div className="flex gap-4" style={{ width: 'max-content' }}>
+            {photos.map((photo) => (
+              <div key={photo.id} className="flex-shrink-0 w-80">
+                <PhotoCard photo={photo} onClick={() => onPhotoClick(photo)} />
+              </div>
+            ))}
+          </div>
+        </div>
+        
+        {/* Gradient fade effect on the right */}
+        <div className="absolute top-0 right-0 w-12 h-full bg-gradient-to-l from-background to-transparent pointer-events-none" />
+      </div>
+    );
+  }
+
+  // Default grid layout for sections with 6 or fewer photos
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {photos.map((photo) => (
@@ -253,15 +396,28 @@ function PhotoGrid({ photos, onPhotoClick }: { photos: PhotoMetadata[]; onPhotoC
 }
 
 function PhotoCard({ photo, onClick }: { photo: PhotoMetadata; onClick: () => void }) {
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
+
   return (
     <Card className="group overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer" onClick={onClick}>
-      <div className="aspect-[4/3] overflow-hidden bg-muted">
+      <div className="aspect-[4/3] overflow-hidden bg-muted relative">
+        {!imageLoaded && !imageError && (
+          <div className="absolute inset-0 bg-muted animate-pulse flex items-center justify-center">
+            <ImageIcon className="w-8 h-8 text-muted-foreground" />
+          </div>
+        )}
         <img
           src={photo.url}
           alt={photo.title || `Photo from ${photo.location}`}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          className={`w-full h-full object-cover group-hover:scale-105 transition-all duration-300 ${
+            imageLoaded ? 'opacity-100' : 'opacity-0'
+          }`}
           loading="lazy"
+          decoding="async"
+          onLoad={() => setImageLoaded(true)}
           onError={(e) => {
+            setImageError(true);
             // Fallback for missing images
             const target = e.target as HTMLImageElement;
             target.src = `data:image/svg+xml,${encodeURIComponent(`

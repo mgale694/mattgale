@@ -25,19 +25,19 @@ export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
       {
-        title: "About | Matt Gale - Software Developer & Photographer",
+        title: "About | Matt Gale - Software Developer",
       },
       {
         name: "description",
-        content: "Learn about Matt Gale's background, experience in software development, certifications, and passion for technology and photography.",
+        content: "Learn about Matt Gale's background, experience in software development, certifications, and passion for technology.",
       },
       {
         property: "og:title",
-        content: "About | Matt Gale - Software Developer & Photographer",
+        content: "About | Matt Gale - Software Developer",
       },
       {
         property: "og:description",
-        content: "Learn about Matt Gale's background, experience in software development, certifications, and passion for technology and photography.",
+        content: "Learn about Matt Gale's background, experience in software development, certifications, and passion for technology.",
       },
     ],
   }),
@@ -55,8 +55,8 @@ function AboutComponent() {
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold mb-4">About Me</h1>
         <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-          Software Developer with a passion for building scalable web applications, 
-          exploring new technologies, and capturing the world through photography.
+          Software Developer with a passion for building scalable web applications 
+          and exploring new technologies.
         </p>
       </div>
 
@@ -83,9 +83,8 @@ function AboutComponent() {
                 and staying current with emerging technologies to deliver the best solutions.
               </p>
               <p>
-                When I'm not coding, you'll find me exploring the world with my camera, capturing moments 
-                and landscapes that tell stories. Photography has taught me to see details and compositions 
-                that translate well into my approach to user interface design.
+                When I'm not coding, I enjoy exploring new technologies, contributing to open source projects, 
+                and staying up-to-date with the latest industry trends and best practices.
               </p>
             </CardContent>
           </Card>
@@ -312,16 +311,16 @@ function AboutComponent() {
             <CardContent>
               <div className="space-y-3 text-sm">
                 <div>
-                  <h4 className="font-semibold mb-1">Photography</h4>
-                  <p className="text-muted-foreground">Capturing landscapes and street scenes with film cameras</p>
-                </div>
-                <div>
                   <h4 className="font-semibold mb-1">Technology</h4>
                   <p className="text-muted-foreground">Exploring new frameworks, tools, and development methodologies</p>
                 </div>
                 <div>
                   <h4 className="font-semibold mb-1">Learning</h4>
                   <p className="text-muted-foreground">Continuous skill development and staying current with industry trends</p>
+                </div>
+                <div>
+                  <h4 className="font-semibold mb-1">Open Source</h4>
+                  <p className="text-muted-foreground">Contributing to projects and sharing knowledge with the developer community</p>
                 </div>
               </div>
             </CardContent>

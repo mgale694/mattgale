@@ -9,15 +9,15 @@ export const Route = createFileRoute("/blog/")({
   head: () => ({
     meta: [
       {
-        title: "Blog | Matt Gale - Software Developer & Photographer",
+        title: "Blog | Matt Gale - Software Developer",
       },
       {
         name: "description",
-        content: "Read Matt Gale's blog about software development, web technologies, photography, and tech insights. Discover tutorials, thoughts, and experiences from a passionate developer.",
+        content: "Read Matt Gale's blog about software development, web technologies, and tech insights. Discover tutorials, thoughts, and experiences from a passionate developer.",
       },
       {
         name: "keywords",
-        content: "Matt Gale blog, software development, web development, programming, React, TypeScript, photography, tech blog",
+        content: "Matt Gale blog, software development, web development, programming, React, TypeScript, tech blog",
       },
       {
         property: "og:type",
@@ -25,11 +25,11 @@ export const Route = createFileRoute("/blog/")({
       },
       {
         property: "og:title",
-        content: "Blog | Matt Gale - Software Developer & Photographer",
+        content: "Blog | Matt Gale - Software Developer",
       },
       {
         property: "og:description",
-        content: "Read Matt Gale's blog about software development, web technologies, photography, and tech insights. Discover tutorials, thoughts, and experiences from a passionate developer.",
+        content: "Read Matt Gale's blog about software development, web technologies, and tech insights. Discover tutorials, thoughts, and experiences from a passionate developer.",
       },
       {
         property: "og:url",

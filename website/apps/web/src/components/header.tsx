@@ -10,7 +10,6 @@ export default function Header() {
     { to: "/about", label: "About" },
     { to: "/showcase", label: "Showcase" },
     { to: "/blog", label: "Blog" },
-    { to: "/photography", label: "Photography" },
   ];
 
   return (

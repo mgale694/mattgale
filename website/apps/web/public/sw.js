@@ -8,8 +8,7 @@ const urlsToCache = [
   '/',
   '/about',
   '/blog',
-  '/showcase',
-  '/photography'
+  '/showcase'
 ];
 
 // Install event - cache essential pages

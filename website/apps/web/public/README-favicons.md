@@ -14,7 +14,7 @@ To complete your SEO setup, you'll need to add the following favicon files to th
 ## Optional but Recommended:
 
 - `og-image.jpg` (1200x630 for social media previews)
-- `photography-preview.jpg` (1200x630 for photography page social previews)
+- `og-image.jpg` (1200x630 for social media previews)
 
 ## Tools to Generate Favicons:
 

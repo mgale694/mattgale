@@ -1,6 +1,5 @@
 // Build-time sitemap generator
 import { getAllBlogPosts } from './blog.js';
-import { getAllPhotos } from './photography.js';
 import fs from 'fs';
 import path from 'path';
 
@@ -31,7 +30,14 @@ async function generateSitemap() {
   });
 
   urls.push({
-    loc: `${baseUrl}/photography`,
+    loc: `${baseUrl}/about`,
+    lastmod: new Date().toISOString().split('T')[0],
+    changefreq: 'monthly',
+    priority: '0.8'
+  });
+
+  urls.push({
+    loc: `${baseUrl}/showcase`,
     lastmod: new Date().toISOString().split('T')[0],
     changefreq: 'monthly',
     priority: '0.7'

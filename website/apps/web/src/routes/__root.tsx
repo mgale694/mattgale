@@ -19,15 +19,15 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
   head: () => ({
     meta: [
       {
-        title: "Matt Gale - Software Developer & Photographer",
+        title: "Matt Gale - Software Developer",
       },
       {
         name: "description",
-        content: "Personal website and blog of Matt Gale - Software Developer, photographer, and technology enthusiast. Explore my projects, photography, and thoughts on software development.",
+        content: "Personal website and blog of Matt Gale - Software Developer and technology enthusiast. Explore my projects and thoughts on software development.",
       },
       {
         name: "keywords",
-        content: "Matt Gale, software developer, photographer, web development, blog, portfolio, React, TypeScript, photography",
+        content: "Matt Gale, software developer, web development, blog, portfolio, React, TypeScript",
       },
       {
         name: "author",
@@ -47,11 +47,11 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
       },
       {
         property: "og:title",
-        content: "Matt Gale - Software Developer & Photographer",
+        content: "Matt Gale - Software Developer",
       },
       {
         property: "og:description",
-        content: "Personal website and blog of Matt Gale - Software Developer, photographer, and technology enthusiast. Explore my projects, photography, and thoughts on software development.",
+        content: "Personal website and blog of Matt Gale - Software Developer and technology enthusiast. Explore my projects and thoughts on software development.",
       },
       {
         property: "og:image",
@@ -63,11 +63,11 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
       },
       {
         property: "twitter:title",
-        content: "Matt Gale - Software Developer & Photographer",
+        content: "Matt Gale - Software Developer",
       },
       {
         property: "twitter:description",
-        content: "Personal website and blog of Matt Gale - Software Developer, photographer, and technology enthusiast. Explore my projects, photography, and thoughts on software development.",
+        content: "Personal website and blog of Matt Gale - Software Developer and technology enthusiast. Explore my projects and thoughts on software development.",
       },
       {
         property: "twitter:image",

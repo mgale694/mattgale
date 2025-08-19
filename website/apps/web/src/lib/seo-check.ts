@@ -73,7 +73,7 @@ function checkSEOHealth(): SEOCheck[] {
   }
 
   // Check social media images
-  const socialImages = ['og-image.jpg', 'photography-preview.jpg'];
+  const socialImages = ['og-image.jpg'];
   const missingSocialImages = socialImages.filter(file => 
     !fs.existsSync(path.join(publicDir, file))
   );

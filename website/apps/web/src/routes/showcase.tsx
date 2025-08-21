@@ -17,39 +17,77 @@ const projects = [
     githubUrl: "https://github.com/mgale694/matthewgale.co.uk",
     liveUrl: "https://matthewgale.co.uk",
     featured: true,
+    image: "/showcase/personal-site-preview.webp",
+    preview: null,
   },
   {
     id: 2,
+    title: "Photography Portfolio",
+    description: "A clean, elegant photography portfolio showcasing my film photography work. Built with modern web technologies and optimized for visual storytelling.",
+    technologies: ["HTML", "CSS", "JavaScript", "Responsive Design"],
+    githubUrl: "#",
+    liveUrl: "https://mattgale-photography.pages.dev/",
+    featured: true,
+    image: "/showcase/photography-preview.webp",
+    preview: null,
+  },
+  {
+    id: 3,
     title: "Project Management Tool",
     description: "A full-stack project management application with real-time collaboration features, task tracking, and team communication.",
     technologies: ["Next.js", "PostgreSQL", "Prisma", "tRPC", "Tailwind CSS"],
     githubUrl: "#",
     liveUrl: "#",
     featured: true,
+    image: null,
+    preview: null,
   },
   {
-    id: 3,
+    id: 4,
     title: "E-commerce Platform",
     description: "A scalable e-commerce solution with inventory management, payment processing, and admin dashboard.",
     technologies: ["React", "Node.js", "MongoDB", "Stripe", "Express"],
     githubUrl: "#",
     liveUrl: "#",
     featured: false,
+    image: null,
+    preview: null,
   },
   {
-    id: 4,
+    id: 5,
     title: "API Analytics Dashboard",
     description: "Real-time analytics dashboard for API monitoring with custom metrics, alerts, and performance insights.",
     technologies: ["Vue.js", "Python", "FastAPI", "Redis", "Chart.js"],
     githubUrl: "#",
     liveUrl: "#",
     featured: false,
+    image: null,
+    preview: null,
   },
 ];
 
 function ProjectCard({ project }: { project: typeof projects[0] }) {
   return (
-    <Card className="h-full">
+    <Card className="h-full overflow-hidden">
+      {(project.image || project.preview === "iframe") && (
+        <div className="aspect-video overflow-hidden bg-muted">
+          {project.preview === "iframe" ? (
+            <iframe
+              src={project.liveUrl}
+              title={`${project.title} preview`}
+              className="w-full h-full border-0 pointer-events-none"
+              loading="lazy"
+              sandbox="allow-same-origin"
+            />
+          ) : project.image ? (
+            <img
+              src={project.image}
+              alt={`${project.title} preview`}
+              className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+            />
+          ) : null}
+        </div>
+      )}
       <CardHeader>
         <div className="flex items-start justify-between">
           <div>
@@ -115,7 +153,7 @@ function ShowcaseComponent() {
 
       <section className="mb-12">
         <h2 className="text-2xl font-semibold mb-6">Featured Projects</h2>
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid lg:grid-cols-2 gap-8">
           {featuredProjects.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}

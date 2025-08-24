@@ -24,7 +24,7 @@ function HomeComponent() {
               Hi, I'm <span className="text-primary">Matt Gale</span>
             </h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
-              A passionate software developer who loves building elegant solutions to complex problems. 
+              A passionate quantitative developer who loves building elegant solutions to complex problems. 
               I specialize in modern web technologies and enjoy sharing my knowledge through writing and open source.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

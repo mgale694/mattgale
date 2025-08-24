@@ -12,7 +12,7 @@ export default function Footer() {
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">Matt Gale</h3>
             <p className="text-sm text-muted-foreground">
-              Software developer passionate about building elegant solutions to complex problems.
+              Quantitative Developer passionate about building elegant solutions to complex problems.
             </p>
           </div>
 

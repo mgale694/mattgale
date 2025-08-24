@@ -21,7 +21,7 @@ function HomeComponent() {
         <section className="relative text-center py-12 mb-16 z-10">
           <div className="relative z-10">
             <h1 className="text-5xl font-bold mb-6">
-              Hi, I'm <span className="text-primary">Matt Gale</span>
+              Hi, I'm <span className="text-primary">Matthew Gale</span>
             </h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
               A passionate quantitative developer who loves building elegant solutions to complex problems. 

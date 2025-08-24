@@ -28,19 +28,19 @@ export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
       {
-        title: "About | Matt Gale - Quantitative Developer/Software Developer",
+        title: "About | Matthew Gale - Quantitative Developer/Software Developer",
       },
       {
         name: "description",
-        content: "Learn about Matt Gale's background, experience in software development, certifications, and passion for technology.",
+        content: "Learn about Matthew Gale's background, experience in software development, certifications, and passion for technology.",
       },
       {
         property: "og:title",
-        content: "About | Matt Gale - Quantitative Developer/Software Developer",
+        content: "About | Matthew Gale - Quantitative Developer/Software Developer",
       },
       {
         property: "og:description",
-        content: "Learn about Matt Gale's background, experience in software development, certifications, and passion for technology.",
+        content: "Learn about Matthew Gale's background, experience in software development, certifications, and passion for technology.",
       },
     ],
   }),

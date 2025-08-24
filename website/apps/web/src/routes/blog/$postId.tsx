@@ -5,6 +5,7 @@ import { TableOfContents } from "@/components/table-of-contents";
 import { ArrowLeft, CalendarDays, Clock, Copy, Check } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { getBlogPost, type BlogPost } from "@/lib/blog";
+import { getAllBlogPosts } from "@/lib/blog";
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
@@ -31,7 +32,7 @@ export const Route = createFileRoute("/blog/$postId")({
     return {
       meta: [
         {
-          title: `${post.title} | Matt Gale`,
+          title: `${post.title} | Matthew Gale`,
         },
         {
           name: "description",
@@ -39,11 +40,11 @@ export const Route = createFileRoute("/blog/$postId")({
         },
         {
           name: "keywords",
-          content: `${post.tags?.join(', ')}, Matt Gale, blog, software development`,
+          content: `${post.tags?.join(', ')}, Matthew Gale, blog, software development`,
         },
         {
           name: "author",
-          content: "Matt Gale",
+          content: "Matthew Gale",
         },
         {
           property: "og:type",
@@ -71,7 +72,7 @@ export const Route = createFileRoute("/blog/$postId")({
         },
         {
           property: "article:author",
-          content: "Matt Gale",
+          content: "Matthew Gale",
         },
         {
           property: "article:tag",
@@ -162,6 +163,22 @@ function CodeBlock({ children, className, ...props }: any) {
 
 function BlogPostComponent() {
   const { post } = Route.useLoaderData();
+  const [featuredPosts, setFeaturedPosts] = useState<BlogPost[]>([]);
+  const [recentPosts, setRecentPosts] = useState<BlogPost[]>([]);
+
+  useEffect(() => {
+    async function fetchPosts() {
+      const all: BlogPost[] = await getAllBlogPosts();
+      setFeaturedPosts(all.filter((p: BlogPost) => p.featured && p.id !== post.id));
+      setRecentPosts(
+        all
+          .filter((p: BlogPost) => p.id !== post.id)
+          .sort((a: BlogPost, b: BlogPost) => new Date(b.date).getTime() - new Date(a.date).getTime())
+          .slice(0, 3)
+      );
+    }
+    fetchPosts();
+  }, [post.id]);
 
   // Add some loading state to prevent flash
   useEffect(() => {
@@ -179,7 +196,7 @@ function BlogPostComponent() {
           <Button asChild>
             <Link to="/blog">
               <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Blog
+              Back to Blogs
             </Link>
           </Button>
         </div>
@@ -188,15 +205,45 @@ function BlogPostComponent() {
   }
 
   return (
-    <div className="container mx-auto max-w-7xl px-4 py-8">
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
+    <div className="container mx-auto max-w-8xl px-4 py-8">
+      <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr_300px] gap-8">
+        {/* Left Sidebar: Featured & Recent */}
+        <aside className="hidden lg:block">
+          <div className="sticky top-4 max-h-[calc(100vh-2rem)] overflow-auto bg-transparent border-muted/30 backdrop-blur-sm">
+            <h3 className="text-lg font-semibold mb-4 mt-6">Featured Posts</h3>
+            <ul className="space-y-2">
+              {featuredPosts.map(fp => (
+                <li key={fp.id}>
+                  <Link to="/blog/$postId" params={{ postId: fp.id }} className="hover:text-primary transition-colors">
+                    {fp.title}
+                  </Link>
+                </li>
+              ))}
+              {featuredPosts.length === 0 && <li className="text-muted-foreground text-sm">No featured posts</li>}
+            </ul>
+            <h3 className="text-lg font-semibold mb-4 mt-6">Most Recent</h3>
+            <ul className="space-y-2">
+              {recentPosts.map(rp => (
+                <li key={rp.id}>
+                  <Link to="/blog/$postId" params={{ postId: rp.id }} className="hover:text-primary transition-colors">
+                    {rp.title}
+                  </Link>
+                </li>
+              ))}
+              {recentPosts.length === 0 && <li className="text-muted-foreground text-sm">No recent posts</li>}
+            </ul>
+          </div>
+        </aside>
+        {/* <aside className="hidden lg:block">
+          <TableOfContents content={post.content} />
+        </aside> */}
         {/* Main Content */}
         <article className="min-w-0">
           <header className="mb-8">
             <Button variant="outline" size="sm" asChild className="mb-6">
               <Link to="/blog">
                 <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Blog
+                Back to Blogs
               </Link>
             </Button>
             
@@ -231,6 +278,31 @@ function BlogPostComponent() {
             remarkPlugins={[remarkGfm]}
             rehypePlugins={[rehypeHighlight]}
             components={{
+              // Custom image renderer for light/dark banners
+              img: ({ src, alt }) => {
+                if (src && src.endsWith('banner.png')) {
+                  // Try to find matching dark banner
+                  const darkSrc = src.replace('banner.png', 'banner-dark.png');
+                  return (
+                    <>
+                      <img
+                        src={src}
+                        alt={alt}
+                        className="block dark:hidden w-full h-auto"
+                        style={{ aspectRatio: '8/3', objectFit: 'cover' }}
+                      />
+                      <img
+                        src={darkSrc}
+                        alt={alt}
+                        className="hidden dark:block w-full h-auto"
+                        style={{ aspectRatio: '8/3', objectFit: 'cover' }}
+                      />
+                    </>
+                  );
+                }
+                // Default image
+                return <img src={src} alt={alt} />;
+              },
               // Customize headings
               h1: ({ children, ...props }) => {
                 const id = String(children)

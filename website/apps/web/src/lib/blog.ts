@@ -11,6 +11,8 @@ export interface BlogPost {
   tags: string[];
   featured: boolean;
   fileName: string;
+  bannerUrl?: string;
+  bannerUrlDark?: string;
 }
 
 // Parse frontmatter from markdown content
@@ -97,11 +99,16 @@ export function groupPostsByDate(posts: BlogPost[]): Record<string, Record<strin
 }
 
 // Read all markdown files using Vite's glob import
-const modules = import.meta.glob('/src/content/blog/*.md', { 
-  query: '?raw', 
-  import: 'default'
-  // Removed eager: true to allow dynamic loading
-}) as Record<string, () => Promise<string>>;
+const modules = {
+  // ...import.meta.glob('/src/content/blog/*.md', {
+  //   query: '?raw',
+  //   import: 'default',
+  // }),
+  ...import.meta.glob('/src/content/blog/*/*.md', {
+    query: '?raw',
+    import: 'default',
+  }),
+} as Record<string, () => Promise<string>>;
 
 let blogPosts: BlogPost[] = [];
 let blogPostsLoaded = false;
@@ -115,14 +122,24 @@ async function loadBlogPosts(): Promise<BlogPost[]> {
           const content = await loader();
           const fileName = path.split('/').pop() || '';
           const { frontmatter, body } = parseFrontmatter(content);
-          
           // Extract ID from filename
           const id = fileName.replace(/\.md$/, '');
-          
           // Use frontmatter data or extract from filename
           const title = frontmatter.title || extractTitleFromFilename(fileName);
           const date = frontmatter.date || extractDateFromFilename(fileName);
-          
+
+          // Use bannerUrl from frontmatter if present, otherwise fallback to folder-based banner path
+          let bannerUrl: string | undefined = frontmatter.bannerUrl;
+          let bannerUrlDark: string | undefined = frontmatter.bannerUrlDark;
+          if (!bannerUrl) {
+            const folderPathMatch = path.match(/\/blog\/(\d{4}-\d{2}-\d{2})\/(.+)\.md$/);
+            if (folderPathMatch) {
+              const folder = folderPathMatch[1];
+              bannerUrl = `/src/content/blog/${folder}/banner.png`;
+              bannerUrlDark = `/src/content/blog/${folder}/banner-dark.png`;
+            }
+          }
+
           return {
             id,
             title,
@@ -133,6 +150,8 @@ async function loadBlogPosts(): Promise<BlogPost[]> {
             tags: frontmatter.tags || [],
             featured: frontmatter.featured || false,
             fileName,
+            bannerUrl,
+            bannerUrlDark,
           };
         })
       );

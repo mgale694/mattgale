@@ -1,6 +1,6 @@
 /**
  * Service Worker for performance optimization
- * Professional website caching for Matt Gale's portfolio
+ * Professional website caching for Matthew Gale's portfolio
  */
 
 const CACHE_NAME = 'mattgale-portfolio-v1';
